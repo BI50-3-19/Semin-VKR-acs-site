@@ -1,0 +1,120 @@
+{
+    "env": {
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 13,
+        "project": ["./tsconfig.json"]
+    },
+    "plugins": ["@typescript-eslint"],
+    "root": true,
+    "rules": {
+        "@typescript-eslint/explicit-member-accessibility": [
+            "error",
+            {
+                "accessibility": "explicit",
+                "overrides": {
+                    "accessors": "explicit",
+                    "constructors": "off",
+                    "methods": "explicit",
+                    "parameterProperties": "explicit",
+                    "properties": "explicit"
+                }
+            }
+        ],
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "format": ["StrictPascalCase", "PascalCase"],
+                "selector": "class"
+            },
+            {
+                "format": ["PascalCase", "camelCase", "UPPER_CASE"],
+                "modifiers": ["const"],
+                "selector": "variable"
+            },
+            {
+                "format": ["PascalCase", "camelCase"],
+                "selector": "function"
+            },
+            {
+                "filter": {
+                    "match": false,
+                    "regex": "_"
+                },
+                "format": ["camelCase"],
+                "selector": "variableLike"
+            },
+            {
+                "format": ["camelCase"],
+                "leadingUnderscore": "require",
+                "modifiers": ["private"],
+                "selector": "memberLike"
+            },
+            {
+                "custom": {
+                    "match": true,
+                    "regex": "^I[A-Z]"
+                },
+                "format": ["PascalCase"],
+                "selector": "interface"
+            },
+            {
+                "custom": {
+                    "match": true,
+                    "regex": "^T[A-Z]"
+                },
+                "format": ["PascalCase"],
+                "selector": "typeAlias"
+            }
+        ],
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "key-spacing": [
+            "error",
+            {
+                "mode": "strict"
+            }
+        ],
+        "linebreak-style": ["error", "unix"],
+        "object-curly-newline": [
+            "error",
+            {
+                "ExportDeclaration": {
+                    "minProperties": 3,
+                    "multiline": true
+                },
+                "ImportDeclaration": {
+                    "minProperties": 3,
+                    "multiline": true
+                },
+                "ObjectExpression": "always",
+                "ObjectPattern": {
+                    "multiline": true
+                }
+            }
+        ],
+        "object-curly-spacing": ["error", "always"],
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"],
+        "semi-spacing": [
+            "error",
+            {
+                "after": true,
+                "before": false
+            }
+        ]
+    }
+}
