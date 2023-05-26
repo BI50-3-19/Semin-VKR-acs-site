@@ -5,7 +5,6 @@ import { Icon28QrCodeOutline, Icon56Users3Outline } from "@vkontakte/icons";
 import QRCode from "qrcode";
 
 import {
-    Avatar,
     Button,
     ButtonGroup, Group,
     NavIdProps, Panel,
@@ -20,6 +19,7 @@ import {
     useRef,
     useState
 } from "react";
+import Profile from "./Profile";
 
 const MainPage: FC<NavIdProps> = ({ nav }) => {
     if (Session.user === null) {
@@ -76,7 +76,7 @@ const MainPage: FC<NavIdProps> = ({ nav }) => {
         await QRCode.toCanvas(
             canvasRef.current,
             JSON.stringify({
-                userId: Session.user!.id,
+                userId: Session.user?.id,
                 key,
                 sign
             })
@@ -99,15 +99,7 @@ const MainPage: FC<NavIdProps> = ({ nav }) => {
     return (
         <Panel nav={nav}>
             <PanelHeader>REA ACS</PanelHeader>
-            <Group>
-                <Placeholder
-                    stretched
-                    icon={<Avatar size={48} initials={`${Session.user.surname[0]}${Session.user.name[0]}`} src="" />}
-                    header={Session.user.role}
-                >
-                    {Session.user.surname} {Session.user.name} {Session.user.patronymic}
-                </Placeholder>
-            </Group>
+            <Profile user={Session.user}/>
             <Group>
                 {!showQRCode && (
                     <Placeholder
@@ -130,6 +122,9 @@ const MainPage: FC<NavIdProps> = ({ nav }) => {
                     </Placeholder>
                 )}
                 <Placeholder
+                    style={{
+                        display: !showQRCode ? "none" : undefined 
+                    }}
                     action={showQRCode &&
                     (
                         <ButtonGroup stretched mode="vertical">

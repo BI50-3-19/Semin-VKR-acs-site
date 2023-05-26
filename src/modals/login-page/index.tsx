@@ -51,6 +51,7 @@ export const LoginModalPage: FC<
             });
             Storage.setTokens(response);
             await Session.load();
+            replace("/");
             setIsLoad(false);
         } catch (error) {
             if (error instanceof APIError) {
