@@ -19,11 +19,7 @@ import {
 
 import { observer } from "mobx-react";
 import Session from "@/TS/store/Session";
-
-const useForceUpdate = (): (() => void) => {
-    const [value, setValue] = useState(false);
-    return () => setValue(!value);
-};
+import useForceUpdate from "@/hooks/useForceUpdate";
 
 const HeaderLeftButtons = (): JSX.Element => {
     const { isDesktop } = useAdaptivityWithJSMediaQueries();
