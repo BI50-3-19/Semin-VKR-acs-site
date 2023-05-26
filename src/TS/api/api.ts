@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 import APIError, { IAPIError } from "./error";
+import APIAuth from "./sections/auth";
 
 interface IAPIParams {
     apiUrl?: string;
@@ -9,8 +10,12 @@ interface IAPIParams {
 class API {
     private readonly _apiUrl: string;
 
+    public readonly auth: APIAuth;
+
     constructor(options?: IAPIParams) {
         this._apiUrl = options?.apiUrl || "https://acs.rus-anonym-team.ru";
+
+        this.auth = new APIAuth(this);
     }
 
     public async call<Res = unknown>(
@@ -30,11 +35,7 @@ class API {
         });
 
         if (response.data.error) {
-            if (response.data.error.code === 17) {
-                return this.call(method, data);
-            } else {
-                throw new APIError(response.data.error);
-            }
+            throw new APIError(response.data.error);
         } else {
             return response.data.response;
         }
