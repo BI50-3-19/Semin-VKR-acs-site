@@ -3,31 +3,47 @@ import {
     ModalRoot, View, matchPopout, useParams 
 } from "@itznevikat/router";
 import {
-    Icon28EditOutline,
     Icon28HomeOutline,
-    Icon28Profile,
-    Icon28ServicesOutline,
-    Icon28StatisticsOutline
+    Icon28Users3
 } from "@vkontakte/icons";
 import {
-    ScreenSpinner,
-    useAdaptivityWithJSMediaQueries
+    Panel, PanelHeader, ScreenSpinner 
 } from "@vkontakte/vkui";
 
-import AdaptivityLayout from "@/components/adaptivity/layout";
+import AdaptivityLayout, { TAdaptivityButton } from "@/components/adaptivity/layout";
 import { observer } from "mobx-react";
 import MainPage from "./pages/Main";
 import { AccountNotCreated } from "./popouts";
 
 import { LoginModalPage, ErrorCard } from "./modals";
+import Session from "./TS/store/Session";
+import HeaderLeftButtons from "./components/adaptivity/header-buttons";
 
 const Layout: FC = () => {
     const { popout = null } = useParams();
 
-    const { isDesktop } = useAdaptivityWithJSMediaQueries();
+    const buttons = useMemo<TAdaptivityButton[]>(() => {
+        const buttons: TAdaptivityButton[] = [
+            {
+                icon: <Icon28HomeOutline />,
+                story: "/",
+                text: "Главная"
+            }
+        ];
 
-    const buttons = useMemo(() => {
-        return [];
+        if (Session.hasAccess("users:get")) {
+            buttons.push({
+                icon: <Icon28Users3 />,
+                story: "/users",
+                text: "Пользователи"
+            });
+        }
+        
+        if (buttons.length > 0) {
+            return buttons;
+        } else {
+            return [];
+        }
     }, []);
 
     return (
@@ -47,6 +63,12 @@ const Layout: FC = () => {
             <View nav="/">
                 <MainPage nav="/" />
             </View>
+
+            {Session.hasAccess("users:get") && (
+                <View nav="/users">
+                    <MainPage nav="/" />
+                </View>
+            )}
         </AdaptivityLayout>
     );
 };

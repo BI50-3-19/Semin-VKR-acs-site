@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { push, useDeserialized } from "@itznevikat/router";
 import {
-    Cell, Group, List, SplitCol 
+    Cell, Group, List, PanelHeader, PanelHeaderContent, SplitCol 
 } from "@vkontakte/vkui";
 
 import { TAdaptivityButton } from "./layout";
@@ -10,11 +10,19 @@ type TAdaptivitySidebarProps = {
     buttons: TAdaptivityButton[];
 };
 
-export const AdaptivitySidebar: FC<TAdaptivitySidebarProps> = ({ buttons }) => {
+import { observer } from "mobx-react";
+import HeaderLeftButtons from "./header-buttons";
+
+const ObservedHeaderLeftButtons = observer(HeaderLeftButtons);
+
+const AdaptivitySidebar: FC<TAdaptivitySidebarProps> = ({ buttons }) => {
     const { view } = useDeserialized();
 
     return (
         <SplitCol fixed width="280px" maxWidth="280px">
+            <PanelHeader separator before={<ObservedHeaderLeftButtons />}>
+                { /* // Logo?? */ }
+            </PanelHeader>
             <Group>
                 <List>
                     {buttons.map(({ story, icon, text }: TAdaptivityButton) => (
@@ -41,3 +49,5 @@ export const AdaptivitySidebar: FC<TAdaptivitySidebarProps> = ({ buttons }) => {
         </SplitCol>
     );
 };
+
+export default observer(AdaptivitySidebar);

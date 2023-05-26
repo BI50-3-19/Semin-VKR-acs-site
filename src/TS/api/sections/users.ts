@@ -6,6 +6,8 @@ interface IUsersGetResponse {
     surname: string;
     patronymic?: string;
     role: string;
+    mask: number;
+    hasAvatar: boolean;
 }
 
 class APIUsers extends APISection {

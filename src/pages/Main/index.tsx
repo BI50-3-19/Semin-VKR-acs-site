@@ -1,8 +1,9 @@
 import Session from "@/TS/store/Session";
+import HeaderLeftButtons from "@/components/adaptivity/header-buttons";
 import { push } from "@itznevikat/router";
 import { Icon56Users3Outline } from "@vkontakte/icons";
 import {
-    NavIdProps, Panel, Button, Placeholder, ButtonGroup 
+    NavIdProps, Panel, Button, Placeholder, ButtonGroup, Group, PanelHeader 
 } from "@vkontakte/vkui";
 import { FC } from "react";
 
@@ -39,13 +40,16 @@ const MainPage: FC<NavIdProps> = ({ nav }) => {
 
     return (
         <Panel nav={nav}>
-            <Placeholder
-                stretched
-                icon={<Icon56Users3Outline />}
-                header={Session.user.role}
-            >
-                {Session.user.surname} {Session.user.name} {Session.user.patronymic}
-            </Placeholder>
+            <PanelHeader>REA ACS</PanelHeader>
+            <Group>
+                <Placeholder
+                    stretched
+                    icon={<Icon56Users3Outline />}
+                    header={Session.user.role}
+                >
+                    {Session.user.surname} {Session.user.name} {Session.user.patronymic}
+                </Placeholder>
+            </Group>
         </Panel>
     );
 };

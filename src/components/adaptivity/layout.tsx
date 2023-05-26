@@ -10,7 +10,7 @@ import {
     useAdaptivityWithJSMediaQueries
 } from "@vkontakte/vkui";
 
-import { AdaptivitySidebar } from "./sidebar";
+import AdaptivitySidebar from "./sidebar";
 import { AdaptivityTabbar } from "./tabbar";
 
 import session from "@/TS/store/Session";
@@ -47,8 +47,6 @@ const AdaptivityLayout: FC<TAdaptivityLayoutProps> = ({
     }, []);
 
     return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
         <Match>
             <SplitLayout
                 header={!isDesktop && <PanelHeader separator={false} />}
@@ -57,6 +55,10 @@ const AdaptivityLayout: FC<TAdaptivityLayoutProps> = ({
                 }}
                 {...rest}
             >
+                {isDesktop && buttons.length > 0 && (
+                    <AdaptivitySidebar buttons={buttons} />
+                )}
+
                 <SplitCol
                     autoSpaced
                     animate={!isDesktop}
@@ -75,10 +77,6 @@ const AdaptivityLayout: FC<TAdaptivityLayoutProps> = ({
 
                     {snackbar}
                 </SplitCol>
-
-                {isDesktop && buttons.length > 0 && (
-                    <AdaptivitySidebar buttons={buttons} />
-                )}
             </SplitLayout>
         </Match>
     );

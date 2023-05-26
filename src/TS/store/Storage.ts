@@ -5,6 +5,18 @@ class Storage {
     public accessToken: string | null;
     public refreshToken: string | null;
 
+    public readonly accessRights = {
+        "users:get": 1 << 0,
+        "users:manage": 1 << 1,
+        "schedules": 1 << 2,
+        "roles": 1 << 3,
+        "groups": 1 << 4,
+        "areas": 1 << 5,
+        "devices": 1 << 6,
+        "security": 1 << 7,
+        "security:reasons": 1 << 8
+    } as const;
+
     constructor() {
         makeAutoObservable(this);
 

@@ -42,10 +42,10 @@ const App = () => {
             appearance={Session.appearance}
             transitionMotionEnabled={false}
             platform={platform}
-            webviewType={WebviewType.VKAPPS}
+            webviewType={WebviewType.INTERNAL}
         >
             <AdaptivityProvider>
-                <AppRoot>
+                <AppRoot mode="full">
                     {isLoad ? (
                         <SplitLayout popout={<ScreenSpinner state="loading" />} />
                     ) : (
