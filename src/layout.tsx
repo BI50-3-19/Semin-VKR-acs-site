@@ -6,9 +6,7 @@ import {
     Icon28HomeOutline,
     Icon28Users3
 } from "@vkontakte/icons";
-import {
-    Panel, PanelHeader, ScreenSpinner 
-} from "@vkontakte/vkui";
+import { ScreenSpinner } from "@vkontakte/vkui";
 
 import AdaptivityLayout, { TAdaptivityButton } from "@/components/adaptivity/layout";
 import { observer } from "mobx-react";
@@ -17,7 +15,7 @@ import { AccountNotCreated } from "./popouts";
 
 import { LoginModalPage, ErrorCard } from "./modals";
 import Session from "./TS/store/Session";
-import HeaderLeftButtons from "./components/adaptivity/header-buttons";
+import UsersPage from "./pages/Users";
 
 const Layout: FC = () => {
     const { popout = null } = useParams();
@@ -39,7 +37,7 @@ const Layout: FC = () => {
             });
         }
         
-        if (buttons.length > 0) {
+        if (buttons.length > 1) {
             return buttons;
         } else {
             return [];
@@ -66,7 +64,7 @@ const Layout: FC = () => {
 
             {Session.hasAccess("users:get") && (
                 <View nav="/users">
-                    <MainPage nav="/" />
+                    <UsersPage nav="/" />
                 </View>
             )}
         </AdaptivityLayout>

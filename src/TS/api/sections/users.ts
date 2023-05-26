@@ -16,6 +16,13 @@ class APIUsers extends APISection {
     }): Promise<IUsersGetResponse> {
         return this._call("users.get", params);
     }
+
+    public getList(params?: {
+        count?: number;
+        offset?: number;
+    }): Promise<IUsersGetResponse[]> {
+        return this._call("users.getList", params);
+    }
 }
 
 export type { IUsersGetResponse };
