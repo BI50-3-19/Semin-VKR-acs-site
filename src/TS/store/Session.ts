@@ -1,3 +1,4 @@
+import { AppearanceType } from "@vkontakte/vk-bridge";
 import { makeAutoObservable } from "mobx";
 
 class Cache {
@@ -25,6 +26,16 @@ class Cache {
 
 class Session {
     public cache = new Cache();
+    public appearance: AppearanceType = "dark";
+    public snackbar: JSX.Element | null = null;
+
+    constructor() {
+        makeAutoObservable(this);
+    }
+
+    public setAppearance(appearance: AppearanceType) {
+        this.appearance = appearance;
+    }
 }
 
 export default new Session();
