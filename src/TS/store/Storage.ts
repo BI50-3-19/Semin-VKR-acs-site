@@ -61,6 +61,17 @@ class Storage {
         } {
         return this.accessToken !== null && this.refreshToken !== null && this.userId !== null;
     }
+
+    public reset(): void {
+        this.userId = null;
+        localStorage.removeItem("userId");
+
+        this.accessToken = null;
+        localStorage.removeItem("accessToken");
+
+        this.refreshToken = null;
+        localStorage.removeItem("refreshToken");
+    }
 }
 
 export default new Storage();

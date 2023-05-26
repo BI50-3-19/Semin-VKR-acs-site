@@ -73,6 +73,10 @@ class Session {
     public async load(): Promise<void> {
         this.user = await api.users.get();
     }
+
+    public reset() {
+        this.user = null;
+    }
 }
 
 export default new Session();

@@ -28,6 +28,16 @@ class APISessions extends APISection {
     }> {
         return this._call("sessions.getTempKey");
     }
+
+    public destroy(params: {
+        id: string;
+    }): Promise<boolean> {
+        return this._call("sessions.destroy", params);
+    }
+
+    public reset(): Promise<boolean> {
+        return this._call("sessions.reset");
+    }
 }
 
 export type { ISessionsGetActiveItemResponse };

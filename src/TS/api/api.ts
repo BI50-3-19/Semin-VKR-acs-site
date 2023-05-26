@@ -9,6 +9,9 @@ import APISecurity from "./sections/security";
 import APIAccount from "./sections/account";
 
 import Storage from "../store/Storage";
+import Session from "../store/Session";
+
+import { replace } from "@itznevikat/router";
 
 
 interface IAPIParams {
@@ -55,6 +58,12 @@ class API {
         });
 
         if (response.data.error) {
+            if (response.data.error.code === 4) {
+                Storage.reset();
+                Session.reset();
+                replace("/");
+            }
+
             if (response.data.error.code === 30 && Storage.hasAuthInfo()) {
                 const response = await this.sessions.getNewTokens({
                     refreshToken: Storage.refreshToken

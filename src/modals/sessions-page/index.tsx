@@ -4,6 +4,7 @@ import {
 import {
     Button,
     ButtonGroup,
+    CellButton,
     Group,
     IconButton,
     ModalPage,
@@ -12,36 +13,44 @@ import {
     Placeholder,
     RichCell,
     Separator,
-    SimpleCell,
     Spinner
 } from "@vkontakte/vkui";
 import api from "@/TS/api";
 import { useMeta } from "@itznevikat/router";
 import { ISessionsGetActiveItemResponse } from "@/TS/api/sections/sessions";
 import moment from "moment";
-import { Icon24Delete, Icon28QrCodeOutline } from "@vkontakte/icons";
+import {
+    Icon24DoorArrowLeftOutline,
+    Icon28DoorArrowLeftOutline,
+    Icon28QrCodeOutline 
+} from "@vkontakte/icons";
 import QRCode from "qrcode";
 import Session from "@/TS/store/Session";
 
-const SessionCell = ({ session }: {session: ISessionsGetActiveItemResponse; index: number}) => {
+const SessionCell = ({ session, onChangeList }: {session: ISessionsGetActiveItemResponse; onChangeList: () => void;}) => {
     return (
         <RichCell 
             disabled
             multiline
-            caption={`Последнее посещение: ${moment(session.lastUsedAt).format("DD.MM.YYYY, HH:MM:ss")}`}
             after={
-                <IconButton>
-                    <Icon24Delete />
+                <IconButton
+                    onClick={() => {
+                        void api.sessions.destroy({
+                            id: session.id
+                        }).then(onChangeList);
+                    }}
+                >
+                    <Icon24DoorArrowLeftOutline />
                 </IconButton>
             }
-        >
-            Создана: {moment(session.createdAt).format("DD.MM.YYYY, HH:MM:ss")}
-        </RichCell>
+            subhead={`Создана: ${moment(session.createdAt).format("DD.MM.YYYY, HH:mm:ss")}`}
+            caption={`Последнее посещение: ${moment(session.lastUsedAt).format("DD.MM.YYYY, HH:mm:ss")}`}
+        />
     );
 };
 
 export const SessionsPage: FC<
-  NavIdProps & { dynamicContentHeight: boolean }
+    NavIdProps & { dynamicContentHeight: boolean }
 > = ({ nav }) => {
     const { list } = useMeta<{
         list?: ISessionsGetActiveItemResponse[];
@@ -109,9 +118,17 @@ export const SessionsPage: FC<
                         <Spinner size="large" />
                     </Placeholder>
                 </Group>
-            ) : sessions.map((session, index) => <SessionCell session={session} index={index} />)}
+            ) : sessions.map((session) => {
+                return (<SessionCell 
+                    session={session} 
+                    onChangeList={() => {
+                        setSessions(null);
+                        void api.sessions.getActive().then(setSessions);
+                    }} 
+                />);
+            })}
             <Separator wide/>
-            <SimpleCell
+            <CellButton
                 style={{
                     display: showQRCode ? "none" : undefined 
                 }}
@@ -123,7 +140,23 @@ export const SessionsPage: FC<
                 before={<Icon28QrCodeOutline />}
             >
                 Добавить новое устройство через QR-код
-            </SimpleCell>
+            </CellButton>
+            <CellButton
+                mode="danger"
+                style={{
+                    display: showQRCode ? "none" : undefined 
+                }}
+                onClick={() => {
+                    setSessions(null);
+                    void api.sessions.reset().then(() => {
+                        void api.sessions.getActive().then(setSessions);
+                    });
+                }}
+                expandable
+                before={<Icon28DoorArrowLeftOutline />}
+            >
+                Сбросить все сессии кроме текущей
+            </CellButton>
             <Placeholder
                 style={{
                     display: !showQRCode ? "none" : undefined 
