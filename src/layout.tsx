@@ -17,6 +17,7 @@ import {
 import AdaptivityLayout from "@/components/adaptivity/layout";
 import { observer } from "mobx-react";
 import MainPage from "./pages/Main";
+import { AccountNotCreated } from "./components/popouts";
 
 const Layout: FC = () => {
     const { popout = null } = useParams();
@@ -36,6 +37,7 @@ const Layout: FC = () => {
             }
             popout={matchPopout(popout, [
                 <ScreenSpinner id="screen-spinner" />,
+                <AccountNotCreated nav="account-not-created" />
             ])}
             buttons={buttons}
         >

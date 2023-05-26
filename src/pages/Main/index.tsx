@@ -1,3 +1,4 @@
+import { push } from "@itznevikat/router";
 import { Icon56Users3Outline } from "@vkontakte/icons";
 import {
     NavIdProps, Panel, Button, Placeholder, ButtonGroup 
@@ -19,6 +20,7 @@ const MainPage: FC<NavIdProps> = ({ nav }) => {
                             stretched 
                             mode="secondary"
                             appearance="overlay"
+                            onClick={() => push("/?popout=account-not-created")}
                         >У меня нет аккаунта</Button>
                     </ButtonGroup>
                 }
