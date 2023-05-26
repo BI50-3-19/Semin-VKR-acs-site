@@ -1,11 +1,25 @@
+import api from "@/TS/api";
 import Session from "@/TS/store/Session";
-import HeaderLeftButtons from "@/components/adaptivity/header-buttons";
 import { push } from "@itznevikat/router";
-import { Icon56Users3Outline } from "@vkontakte/icons";
+import { Icon28QrCodeOutline, Icon56Users3Outline } from "@vkontakte/icons";
+import QRCode from "qrcode";
+
 import {
-    NavIdProps, Panel, Button, Placeholder, ButtonGroup, Group, PanelHeader 
+    Avatar,
+    Button,
+    ButtonGroup, Group,
+    NavIdProps, Panel,
+    PanelHeader,
+    Placeholder,
+    Spinner
 } from "@vkontakte/vkui";
-import { FC } from "react";
+
+import {
+    FC,
+    useEffect,
+    useRef,
+    useState
+} from "react";
 
 const MainPage: FC<NavIdProps> = ({ nav }) => {
     if (Session.user === null) {
@@ -38,16 +52,119 @@ const MainPage: FC<NavIdProps> = ({ nav }) => {
         );
     }
 
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    const [showQRCode, setShowQRCode] = useState(false);
+    const [isCreatingQR, setIsCreatingQR] = useState(true);
+
+    const updateQRCode = async () => {
+        if (timerRef.current !== null) {
+            clearTimeout(timerRef.current);
+        }
+
+        setIsCreatingQR(true);
+        const {
+            key,
+            expireIn,
+            sign
+        } = await api.security.getTempKey();
+
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        timerRef.current = setTimeout(updateQRCode, expireIn - (expireIn * 0.10));
+
+        await QRCode.toCanvas(
+            canvasRef.current,
+            JSON.stringify({
+                userId: Session.user!.id,
+                key,
+                sign
+            })
+        );
+        setIsCreatingQR(false);
+    };
+
+    useEffect(() => {
+        if (showQRCode === false && timerRef.current !== null) {
+            clearTimeout(timerRef.current);
+        }
+
+        return () => {
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+            }
+        };
+    }, [showQRCode]);
+
     return (
         <Panel nav={nav}>
             <PanelHeader>REA ACS</PanelHeader>
             <Group>
                 <Placeholder
                     stretched
-                    icon={<Icon56Users3Outline />}
+                    icon={<Avatar size={48} initials={`${Session.user.surname[0]}${Session.user.name[0]}`} src="" />}
                     header={Session.user.role}
                 >
                     {Session.user.surname} {Session.user.name} {Session.user.patronymic}
+                </Placeholder>
+            </Group>
+            <Group>
+                {!showQRCode && (
+                    <Placeholder
+                        icon={<Icon28QrCodeOutline width={72} height={72}/>}
+                        header="QR-Код"
+                        action={
+                            <Button
+                                size="l"
+                                appearance="positive"
+                                onClick={() => {
+                                    setShowQRCode(true);
+                                    void updateQRCode();
+                                }}
+                            >
+                                Сгенерировать
+                            </Button>
+                        }
+                    >
+                        Сгенерируйте QR-код по которому вы сможете пройти через КПП!
+                    </Placeholder>
+                )}
+                <Placeholder
+                    action={showQRCode &&
+                    (
+                        <ButtonGroup stretched mode="vertical">
+                            <Button
+                                stretched
+                                size="m"
+                                appearance="positive"
+                                onClick={updateQRCode}
+                                disabled={isCreatingQR}
+                            >
+                                Сгенерировать снова
+                            </Button>
+                            <Button
+                                stretched
+                                size="m"
+                                appearance="neutral"
+                                onClick={() => setShowQRCode(false)}
+                            >
+                                Закрыть
+                            </Button>
+                        </ButtonGroup>
+                    )
+                    }
+                >
+                    {showQRCode && isCreatingQR && (
+                        <Placeholder>
+                            <Spinner size="large" />
+                        </Placeholder>
+                    )}
+                    <canvas
+                        style={{
+                            display: (isCreatingQR || !showQRCode) ? "none" : undefined
+                        }} 
+                        ref={canvasRef} 
+                    />
                 </Placeholder>
             </Group>
         </Panel>

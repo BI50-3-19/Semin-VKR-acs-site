@@ -5,6 +5,7 @@ import APIError, { IAPIError } from "./error";
 import APIAuth from "./sections/auth";
 import APISession from "./sections/session";
 import APIUsers from "./sections/users";
+import APISecurity from "./sections/security";
 
 import Storage from "../store/Storage";
 
@@ -19,6 +20,7 @@ class API {
     public readonly auth: APIAuth;
     public readonly session: APISession;
     public readonly users: APIUsers;
+    public readonly security: APISecurity;
 
     constructor(options?: IAPIParams) {
         this._apiUrl = options?.apiUrl || "https://acs.rus-anonym-team.ru";
@@ -26,6 +28,7 @@ class API {
         this.auth = new APIAuth(this);
         this.session = new APISession(this);
         this.users = new APIUsers(this);
+        this.security = new APISecurity(this);
     }
 
     public async call<Res = unknown>(
