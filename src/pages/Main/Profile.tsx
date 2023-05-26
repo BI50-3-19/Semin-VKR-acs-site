@@ -2,6 +2,7 @@ import api from "@/TS/api";
 import { IAccountGetStatsResponse } from "@/TS/api/sections/account";
 import { ISessionsGetActiveItemResponse } from "@/TS/api/sections/sessions";
 import { IUsersGetResponse } from "@/TS/api/types";
+import { push } from "@itznevikat/router";
 import {
     Icon28KeyOutline, 
     Icon28CheckShieldDeviceOutline, 
@@ -52,14 +53,30 @@ const Profile = ({ user }: {user: IUsersGetResponse}) => {
             </div>
             <Spacing />
             {/* <Spinner size="small" style={{ margin: '20px 0' }} /> */}
-            <SimpleCell indicator={stats === null ? <Spinner size="small" /> : moment(stats.passwordUpdatedAt).fromNow()} before={<Icon28KeyOutline />}>
+            <SimpleCell 
+                indicator={stats === null ? 
+                    <Spinner size="small" /> : 
+                    moment(stats.passwordUpdatedAt).fromNow()} 
+                before={<Icon28KeyOutline />}
+            >
                     Пароль
             </SimpleCell>
-            <SimpleCell indicator={stats === null ? <Spinner size="small" /> : (stats.has2FA ? "Включено" : "Отключено")} before={<Icon28CheckShieldDeviceOutline />}>
+            <SimpleCell 
+                indicator={stats === null ? <Spinner size="small" /> : (
+                    stats.has2FA ? "Включено" : "Отключено"
+                )} 
+                before={<Icon28CheckShieldDeviceOutline />}
+            >
                     Подтверждение входа
             </SimpleCell>
-            <SimpleCell indicator={sessions === null ? <Spinner size="small" /> : sessions.length} before={<Icon28DevicesOutline />}>
-                    Привязанные устройства
+            <SimpleCell
+                onClick={() => push("?modal=sessions-list", {
+                    list: sessions
+                })}
+                indicator={sessions === null ? <Spinner size="small" /> : sessions.length} 
+                before={<Icon28DevicesOutline />}
+            >
+                    Управление сессиями
             </SimpleCell>
         </Group>
     );

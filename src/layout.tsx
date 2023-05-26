@@ -13,7 +13,9 @@ import { observer } from "mobx-react";
 import MainPage from "./pages/Main";
 import { AccountNotCreated } from "./popouts";
 
-import { LoginModalPage, ErrorCard } from "./modals";
+import {
+    LoginModalPage, ErrorCard, SessionsPage 
+} from "./modals";
 import Session from "./TS/store/Session";
 import UsersPage from "./pages/Users";
 
@@ -50,6 +52,7 @@ const Layout: FC = () => {
                 <ModalRoot>
                     <LoginModalPage nav="login-page" dynamicContentHeight />
                     <ErrorCard nav="error-card" />
+                    <SessionsPage nav="sessions-list" dynamicContentHeight />
                 </ModalRoot>
             }
             popout={matchPopout(popout, [

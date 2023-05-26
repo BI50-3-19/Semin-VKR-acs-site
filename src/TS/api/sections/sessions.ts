@@ -20,6 +20,14 @@ class APISessions extends APISection {
     public getActive(): Promise<ISessionsGetActiveItemResponse[]> {
         return this._call("sessions.getActive");
     }
+
+    public getTempKey(): Promise<{
+        key: string;
+        sign: string;
+        expireIn: number;
+    }> {
+        return this._call("sessions.getTempKey");
+    }
 }
 
 export type { ISessionsGetActiveItemResponse };

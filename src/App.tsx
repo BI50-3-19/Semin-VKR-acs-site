@@ -15,7 +15,6 @@ import { observer } from "mobx-react";
 
 import "./app.css";
 import Storage from "./TS/store/Storage";
-import moment from "moment";
 import "moment/dist/locale/ru";
 
 const App = () => {
