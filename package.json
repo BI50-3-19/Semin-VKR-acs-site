@@ -15,6 +15,7 @@
         "@vkontakte/vk-bridge": "^2.7.4",
         "@vkontakte/vkjs": "^0.32.3",
         "@vkontakte/vkui": "^5.4.2",
+        "@yudiel/react-qr-scanner": "^1.1.8",
         "axios": "^1.4.0",
         "mobx": "^6.9.0",
         "mobx-react": "^7.6.0",
