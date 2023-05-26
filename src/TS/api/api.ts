@@ -1,7 +1,13 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 import APIError, { IAPIError } from "./error";
+
 import APIAuth from "./sections/auth";
+import APISession from "./sections/session";
+import APIUsers from "./sections/users";
+
+import Storage from "../store/Storage";
+
 
 interface IAPIParams {
     apiUrl?: string;
@@ -11,16 +17,21 @@ class API {
     private readonly _apiUrl: string;
 
     public readonly auth: APIAuth;
+    public readonly session: APISession;
+    public readonly users: APIUsers;
 
     constructor(options?: IAPIParams) {
         this._apiUrl = options?.apiUrl || "https://acs.rus-anonym-team.ru";
 
         this.auth = new APIAuth(this);
+        this.session = new APISession(this);
+        this.users = new APIUsers(this);
     }
 
     public async call<Res = unknown>(
         method: string,
-        data?: unknown,
+        data: unknown = {
+        },
         params?: AxiosRequestConfig
     ): Promise<Res> {
         type TResponse =
@@ -29,12 +40,23 @@ class API {
 
         const response = await axios<TResponse>({
             ...params,
+            headers: Storage.hasAuthInfo() ? {
+                "Authorization": `Bearer ${Storage.accessToken}`
+            } : undefined,
             method: "POST",
             url: `${this._apiUrl}/${method}`,
             data
         });
 
         if (response.data.error) {
+            if (response.data.error.code === 30 && Storage.hasAuthInfo()) {
+                const response = await this.session.getNewTokens({
+                    refreshToken: Storage.refreshToken
+                });
+                Storage.setTokens(response);
+                return this.call(method, data, params);
+            }
+
             throw new APIError(response.data.error);
         } else {
             return response.data.response;

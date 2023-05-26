@@ -1,3 +1,4 @@
+import Session from "@/TS/store/Session";
 import { push } from "@itznevikat/router";
 import { Icon56Users3Outline } from "@vkontakte/icons";
 import {
@@ -6,26 +7,44 @@ import {
 import { FC } from "react";
 
 const MainPage: FC<NavIdProps> = ({ nav }) => {
+    if (Session.user === null) {
+        return (
+            <Panel nav={nav}>
+                <Placeholder
+                    stretched
+                    icon={<Icon56Users3Outline />}
+                    header="REA ACS"
+                    action={
+                        <ButtonGroup mode="vertical">
+                            <Button 
+                                size="l" 
+                                stretched
+                                onClick={() => push("?modal=login-page")}
+                            >Войти в аккаунт</Button>
+                            <Button 
+                                size="l" 
+                                stretched 
+                                mode="secondary"
+                                appearance="overlay"
+                                onClick={() => push("/?popout=account-not-created")}
+                            >У меня нет аккаунта</Button>
+                        </ButtonGroup>
+                    }
+                >
+                Для продолжения работы необходимо авторизоваться
+                </Placeholder>
+            </Panel>
+        );
+    }
+
     return (
         <Panel nav={nav}>
             <Placeholder
                 stretched
                 icon={<Icon56Users3Outline />}
-                header="REA ACS"
-                action={
-                    <ButtonGroup mode="vertical">
-                        <Button size="l" stretched>Войти в аккаунт</Button>
-                        <Button 
-                            size="l" 
-                            stretched 
-                            mode="secondary"
-                            appearance="overlay"
-                            onClick={() => push("/?popout=account-not-created")}
-                        >У меня нет аккаунта</Button>
-                    </ButtonGroup>
-                }
+                header={Session.user.role}
             >
-                Для продолжения работы необходимо авторизоваться
+                {Session.user.surname} {Session.user.name} {Session.user.patronymic}
             </Placeholder>
         </Panel>
     );

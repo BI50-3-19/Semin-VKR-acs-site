@@ -3,6 +3,8 @@ import {
     AppRoot,
     ConfigProvider,
     Platform,
+    ScreenSpinner,
+    SplitLayout,
     WebviewType,
     platform
 } from "@vkontakte/vkui";
@@ -12,8 +14,10 @@ import { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 
 import "./app.css";
+import Storage from "./TS/store/Storage";
 
 const App = () => {
+    const [isLoad, setIsLoad] = useState<boolean>(true);
     const [platform, setPlatform] = useState<Platform>(currentPlatform());
 
     useEffect(() => {
@@ -25,6 +29,14 @@ const App = () => {
         return () => window.removeEventListener("resize", onResize, false);
     }, []);
 
+    useEffect(() => {
+        if (Storage.hasAuthInfo()) {
+            Session.load().finally(() => setIsLoad(false));
+        } else {
+            setIsLoad(false);
+        }
+    }, []);
+
     return (
         <ConfigProvider 
             appearance={Session.appearance}
@@ -34,7 +46,11 @@ const App = () => {
         >
             <AdaptivityProvider>
                 <AppRoot>
-                    <Layout />
+                    {isLoad ? (
+                        <SplitLayout popout={<ScreenSpinner state="loading" />} />
+                    ) : (
+                        <Layout />
+                    )}
                 </AppRoot>
             </AdaptivityProvider>
         </ConfigProvider>

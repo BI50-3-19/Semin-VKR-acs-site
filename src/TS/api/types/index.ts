@@ -7,4 +7,6 @@ interface IAPIError {
     }[];
 }
 
+export * from "../sections/users";
+
 export type { IAPIError };
