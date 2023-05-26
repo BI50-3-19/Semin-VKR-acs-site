@@ -18,6 +18,8 @@ import AdaptivityLayout from "@/components/adaptivity/layout";
 import { observer } from "mobx-react";
 import MainPage from "./pages/Main";
 import { AccountNotCreated } from "./popouts";
+import { LoginModalPage } from "./modals/login-page";
+import { ErrorCard } from "./modals/error-card";
 
 const Layout: FC = () => {
     const { popout = null } = useParams();
@@ -32,7 +34,8 @@ const Layout: FC = () => {
         <AdaptivityLayout
             modal={
                 <ModalRoot>
-                    
+                    <LoginModalPage nav="login-page" dynamicContentHeight />,
+                    <ErrorCard nav="error-card" />
                 </ModalRoot>
             }
             popout={matchPopout(popout, [
