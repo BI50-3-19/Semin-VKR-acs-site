@@ -3,6 +3,7 @@ import { makeAutoObservable } from "mobx";
 import { IUsersGetResponse } from "../api/types";
 import api from "../api";
 import Storage from "./Storage";
+import { IAreasGetListItemResponse } from "../api/sections/areas";
 
 class Cache {
     private readonly _values: Record<string, unknown> = {
@@ -27,6 +28,27 @@ class Cache {
     }
 }
 
+class SecuritySession {
+    public nextAreaId: number | null;
+    public prevAreaId: number | null;
+
+    public readonly areas: IAreasGetListItemResponse[];
+
+    constructor(nextAreaId: number | null, prevAreaId: number | null, areas: IAreasGetListItemResponse[]) {
+        this.nextAreaId  = nextAreaId;
+        this.prevAreaId = prevAreaId;
+        this.areas = areas;
+    }
+
+    public get nextArea(): IAreasGetListItemResponse | null {
+        return this.areas.find(x => x.id === this.nextAreaId) || null;
+    }
+
+    public get prevArea(): IAreasGetListItemResponse | null {
+        return this.areas.find(x => x.id === this.prevAreaId) || null;
+    }
+}
+
 class Session {
     private _appearance: AppearanceType | "auto" = "dark";
 
@@ -34,6 +56,8 @@ class Session {
     public snackbar: JSX.Element | null = null;
 
     public user: IUsersGetResponse | null = null;
+
+    public securitySession: SecuritySession | null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -58,6 +82,10 @@ class Session {
         this.snackbar = snackbar;
     }
 
+    public setSecuritySession(session: SecuritySession | null) {
+        this.securitySession = session;
+    }
+
     public hasAccess(
         right: keyof typeof Storage["accessRights"]
     ): this is {
@@ -78,5 +106,7 @@ class Session {
         this.user = null;
     }
 }
+
+export { SecuritySession };
 
 export default new Session();

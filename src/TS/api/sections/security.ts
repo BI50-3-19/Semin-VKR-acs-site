@@ -13,7 +13,12 @@ class APISecurity extends APISection {
         userId: number;
         key: string;
         sign: string;
-    }): Promise<boolean> {
+    }): Promise<{
+        status: true
+    } | {
+        status: false; 
+        reason: "INVALID_SIGN" | "INVALID_USER_ID" | "EXPIRED";
+    }> {
         return this._call("security.isValidTempKey", params);
     }
 }

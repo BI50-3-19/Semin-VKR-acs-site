@@ -1,15 +1,16 @@
 import { replace, useMeta } from "@itznevikat/router";
 import {
-    Button, ModalCard, NavIdProps 
+    Button, ButtonGroup, ModalCard, NavIdProps 
 } from "@vkontakte/vkui";
 import { FC } from "react";
 
 interface IErrorCardMeta {
     message?: string;
+    prevPath?: string;
 }
 
 export const ErrorCard: FC<NavIdProps> = ({ nav }) => {
-    const { message } = useMeta<IErrorCardMeta>();
+    const { message, prevPath } = useMeta<IErrorCardMeta>();
 
     return (
         <ModalCard
@@ -17,13 +18,24 @@ export const ErrorCard: FC<NavIdProps> = ({ nav }) => {
             header="Ошибка"
             subheader={message || "Неизвестная ошибка"}
             actions={
-                <Button
-                    size="l"
-                    mode="primary"
-                    onClick={() => replace("/")}
-                >
-                    На главную
-                </Button>
+                <ButtonGroup gap="m" mode="horizontal" stretched>
+                    {prevPath !== undefined && (
+                        <Button
+                            size="m"
+                            mode="primary"
+                            onClick={() => replace(prevPath)}
+                        >
+                            Назад
+                        </Button>
+                    )}
+                    <Button
+                        size="m"
+                        mode="primary"
+                        onClick={() => replace("/")}
+                    >
+                        На главную
+                    </Button>
+                </ButtonGroup>
             }
         />
     );

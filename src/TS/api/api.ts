@@ -12,6 +12,7 @@ import Storage from "../store/Storage";
 import Session from "../store/Session";
 
 import { replace } from "@itznevikat/router";
+import APIAreas from "./sections/areas";
 
 
 interface IAPIParams {
@@ -26,6 +27,7 @@ class API {
     public readonly users: APIUsers;
     public readonly security: APISecurity;
     public readonly account: APIAccount;
+    public readonly areas: APIAreas;
 
     constructor(options?: IAPIParams) {
         this._apiUrl = options?.apiUrl || "https://acs.rus-anonym-team.ru";
@@ -35,6 +37,7 @@ class API {
         this.users = new APIUsers(this);
         this.security = new APISecurity(this);
         this.account = new APIAccount(this);
+        this.areas = new APIAreas(this);
     }
 
     public async call<Res = unknown>(

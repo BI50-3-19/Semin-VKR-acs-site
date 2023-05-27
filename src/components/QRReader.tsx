@@ -33,7 +33,7 @@ const QRReader = ({ onResult, onResize }:{
                 }}
                 scanDelay={0}
                 onResult={(result) => onResult(result.getText())}
-                onError={() => setHasError(true)}
+                onError={(err) => {console.log(err); setHasError(true);}}
             />
         </Div>
     );
