@@ -41,7 +41,7 @@ const MainPage: FC<NavIdProps> = ({ nav }) => {
                                     size="l" 
                                     stretched 
                                     mode="secondary"
-                                    appearance="overlay"
+                                    appearance="accent"
                                     onClick={() => Session.setPopout(<AccountNotCreated />)}
                                 >У меня нет аккаунта</Button>
                             </ButtonGroup>
