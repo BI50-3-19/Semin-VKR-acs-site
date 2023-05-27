@@ -73,10 +73,7 @@ const Layout: FC = () => {
                     <SessionsPage nav="sessions-list" dynamicContentHeight />
                 </ModalRoot>
             }
-            popout={matchPopout(popout, [
-                <ScreenSpinner id="screen-spinner" />,
-                <AccountNotCreated nav="account-not-created" />
-            ])}
+            popout={Session.popout}
             buttons={buttons}
         >
             <View nav="/">

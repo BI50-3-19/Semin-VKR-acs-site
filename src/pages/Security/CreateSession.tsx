@@ -80,8 +80,11 @@ const CreateSecuritySession = () => {
                         size="l" 
                         stretched 
                         disabled={prevAreaId === nextAreaId}
-                        onClick={() => {
-                            Session.setSecuritySession(new SecuritySession(nextAreaId, prevAreaId, areas));
+                        onClick={async () => {
+                            const reasons = await api.security.getReasons();
+                            Session.setSecuritySession(new SecuritySession({
+                                nextAreaId, prevAreaId, areas, reasons 
+                            }));
                         }}
                     >
                         Продолжить

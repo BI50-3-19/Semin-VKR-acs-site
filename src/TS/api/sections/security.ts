@@ -5,6 +5,11 @@ interface ISecurityCheckAccessToAreaResponse {
     isAreaLocked: boolean
 }
 
+interface ISecurityGetReasonsItemResponse {
+    id: number;
+    title: string;
+}
+
 class APISecurity extends APISection {
     public getTempKey(): Promise<{
         key: string;
@@ -28,33 +33,37 @@ class APISecurity extends APISection {
     }
 
     public checkAccessToArea(params: {
-        userId: number,
-        areaId: number
+        userId: number;
+        areaId: number;
     }): Promise<ISecurityCheckAccessToAreaResponse> {
         return this._call("security.checkAccessToArea", params);
     }
 
     public allowAccessToArea(params: {
-        userId: number,
-        nextAreaId: number
-        prevAreaId: number;
+        userId: number;
+        nextAreaId: number | null;
+        prevAreaId: number | null;
         direction: "next" | "prev"
     }): Promise<boolean> {
         return this._call("security.allowAccessToArea", params);
     }
 
     public denyAccessToArea(params: {
-        userId: number,
-        nextAreaId: number
-        prevAreaId: number;
+        userId: number;
+        nextAreaId: number | null;
+        prevAreaId: number | null;
         direction: "next" | "prev";
         reasonId?: number;
         comment?: string;
     }): Promise<boolean> {
         return this._call("security.denyAccessToArea", params);
     }
+
+    public getReasons(): Promise<ISecurityGetReasonsItemResponse[]> {
+        return this._call("security.getReasons");
+    }
 }
 
-export type { ISecurityCheckAccessToAreaResponse };
+export type { ISecurityCheckAccessToAreaResponse, ISecurityGetReasonsItemResponse };
 
 export default APISecurity;

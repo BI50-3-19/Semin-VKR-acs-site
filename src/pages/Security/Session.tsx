@@ -33,10 +33,17 @@ const SecuritySessionPage: FC<{ session: SecuritySession }> = ({ session }) => {
 
     const forceUpdate = useForceUpdate();
 
-    const directionSubtitle = useMemo(() => {
+    const { prevArea, nextArea } = useMemo(() => {
         const prevArea = direction === "next" ? session.prevArea : session.nextArea;
         const nextArea = direction === "next" ? session.nextArea : session.prevArea;
 
+        return {
+            prevArea, 
+            nextArea
+        };
+    }, [direction]);
+
+    const directionSubtitle = useMemo(() => {
         if (prevArea === null) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             return `С улицы в ${nextArea!.title}`;
@@ -60,7 +67,18 @@ const SecuritySessionPage: FC<{ session: SecuritySession }> = ({ session }) => {
     }, [endSessionConfirm]);
 
     if (userId !== null) {
-        return <SecurityUserInfo userId={userId} back={() => setUserId(null)} />;
+        return (
+            <SecurityUserInfo
+                session={session}
+                userId={userId}
+                back={() => setUserId(null)}
+                nextArea={nextArea}
+                prevArea={prevArea}
+                direction={direction}
+                directionSubtitle={directionSubtitle}
+                setDirection={setDirection}
+            />
+        );
     }
 
     if (isScannerOpen) {
