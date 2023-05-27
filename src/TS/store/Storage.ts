@@ -1,5 +1,9 @@
 import { makeAutoObservable } from "mobx";
 
+type TBackupValue = {
+    [key: string]: TBackupValue;
+} | string | boolean | number | null | TBackupValue[];
+
 class Storage {
     public userId: number | null;
     public accessToken: string | null;
@@ -62,6 +66,43 @@ class Storage {
         return this.accessToken !== null && this.refreshToken !== null && this.userId !== null;
     }
 
+    public hasBackup(key: string): null | number {
+        const value = localStorage.getItem(`backup-${key}`);
+
+        if (!value) {
+            return null;
+        }
+
+        return (JSON.parse(value) as { createdAt: number; }).createdAt;
+    }
+
+    public createBackup<T extends TBackupValue>(key: string, value: T) {
+        return localStorage.setItem(`backup-${key}`, JSON.stringify({
+            createdAt: Date.now(),
+            value
+        }));
+    }
+
+    public getBackup<T>(key: string): {
+        value: T;
+        createdAt: number;
+    } | null {
+        const value = localStorage.getItem(`backup-${key}`);
+
+        if (!value) {
+            return null;
+        }
+
+        return JSON.parse(value) as {
+            value: T;
+            createdAt: number;
+        };
+    }
+
+    public deleteBackup(key: string) {
+        return localStorage.removeItem(`backup-${key}`);
+    }
+
     public reset(): void {
         this.userId = null;
         localStorage.removeItem("userId");
@@ -73,5 +114,7 @@ class Storage {
         localStorage.removeItem("refreshToken");
     }
 }
+
+export type { TBackupValue };
 
 export default new Storage();

@@ -172,6 +172,7 @@ const SecuritySessionPage: FC<{ session: SecuritySession }> = ({ session }) => {
             <CellButton before={<Icon28DeleteOutline />} mode="danger" onClick={
                 () => {
                     if (endSessionConfirm) {
+                        SecuritySession.removeBackup();
                         Session.setSecuritySession(null);
                     } else {
                         setEndSessionConfirm(true);

@@ -4,7 +4,7 @@ import api from "../api";
 import { IAreasGetListItemResponse } from "../api/sections/areas";
 import { ISecurityGetReasonsItemResponse } from "../api/sections/security";
 import { IUsersGetResponse } from "../api/types";
-import Storage from "./Storage";
+import Storage, { TBackupValue } from "./Storage";
 
 class Cache {
     private readonly _values: Record<string, unknown> = {
@@ -36,6 +36,33 @@ class SecuritySession {
     public readonly areas: IAreasGetListItemResponse[];
     public readonly reasons: ISecurityGetReasonsItemResponse[];
 
+    public static hasBackup(): number | null {
+        return Storage.hasBackup("security-session");
+    }
+
+    public static restoreBackup(): SecuritySession {
+        const backup = Storage.getBackup<{ 
+            nextAreaId: number | null; 
+            prevAreaId: number | null; 
+            areas: IAreasGetListItemResponse[]; 
+            reasons: ISecurityGetReasonsItemResponse[]; 
+        }>("security-session");
+
+        if (!backup) {
+            throw new Error("Backup not found");
+        }
+
+        const securitySession = new SecuritySession(backup.value);
+
+        session.setSecuritySession(securitySession);
+
+        return securitySession;
+    }
+
+    public static removeBackup() {
+        return Storage.deleteBackup("security-session");
+    }
+
     constructor({ nextAreaId, prevAreaId, areas, reasons }: { 
         nextAreaId: number | null; 
         prevAreaId: number | null; 
@@ -46,6 +73,13 @@ class SecuritySession {
         this.prevAreaId = prevAreaId;
         this.areas = areas;
         this.reasons = reasons;
+
+        Storage.createBackup("security-session", {
+            nextAreaId,
+            prevAreaId,
+            areas,
+            reasons
+        } as unknown as TBackupValue);
     }
 
     public get nextArea(): IAreasGetListItemResponse | null {
@@ -143,4 +177,6 @@ class Session {
 
 export { SecuritySession };
 
-export default new Session();
+const session = new Session();
+
+export default session;

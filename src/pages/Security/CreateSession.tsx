@@ -1,17 +1,26 @@
 import api from "@/TS/api";
 import { IAreasGetListItemResponse } from "@/TS/api/sections/areas";
 import Session, { SecuritySession } from "@/TS/store/Session";
+import { Icon28UnarchiveOutline } from "@vkontakte/icons";
 import {
     Button,
+    CellButton,
     FormItem, FormLayout, FormLayoutGroup, FormStatus, Group, Placeholder, Select, Spinner
 } from "@vkontakte/vkui";
-import { useEffect, useState } from "react";
+import moment from "moment";
+import {
+    useEffect, useMemo, useState
+} from "react";
 
 const CreateSecuritySession = () => {
     const [areas, setAreas] = useState<IAreasGetListItemResponse[] | null>(null);
 
     const [nextAreaId, setNextAreaId] = useState<number | null>(null);
     const [prevAreaId, setPrevAreaId] = useState<number | null>(null);
+
+    const hasSessionBackup = useMemo(() => {
+        return SecuritySession.hasBackup();
+    }, []);
 
     useEffect(() => {
         void api.areas.getList().then(setAreas);
@@ -91,6 +100,15 @@ const CreateSecuritySession = () => {
                     </Button>
                 </FormItem>
             </FormLayout>
+            {hasSessionBackup !== null && (
+                <CellButton 
+                    before={<Icon28UnarchiveOutline />} 
+                    subtitle={`От ${moment(hasSessionBackup).format("DD.MM.YYYY, HH:mm:ss")}`}
+                    onClick={SecuritySession.restoreBackup.bind(SecuritySession)}
+                >
+                    Восстановить сессию
+                </CellButton>
+            )}
         </Group>
     );
 };
