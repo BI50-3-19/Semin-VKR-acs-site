@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React from "react";
 
 import {
     Button,
@@ -17,7 +17,6 @@ import {
     Icon28SmartphoneOutline,
 } from "@vkontakte/icons";
 
-import { observer } from "mobx-react";
 import Session from "@/TS/store/Session";
 import useForceUpdate from "@/hooks/useForceUpdate";
 

@@ -1,9 +1,7 @@
 import {
-    FC, useEffect, useRef, useState 
+    FC, useEffect, useState 
 } from "react";
 import {
-    Button,
-    ButtonGroup,
     CellButton,
     Group,
     IconButton,
@@ -21,11 +19,8 @@ import { ISessionsGetActiveItemResponse } from "@/TS/api/sections/sessions";
 import moment from "moment";
 import {
     Icon24DoorArrowLeftOutline,
-    Icon28DoorArrowLeftOutline,
-    Icon28QrCodeOutline 
+    Icon28DoorArrowLeftOutline
 } from "@vkontakte/icons";
-import QRCode from "qrcode";
-import Session from "@/TS/store/Session";
 
 const SessionCell = ({ session, onChangeList }: {session: ISessionsGetActiveItemResponse; onChangeList: () => void;}) => {
     return (
@@ -62,50 +57,6 @@ export const SessionsPage: FC<
         void api.sessions.getActive().then(setSessions);
     }, []);
 
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-    const [showQRCode, setShowQRCode] = useState(false);
-    const [isCreatingQR, setIsCreatingQR] = useState(true);
-
-    const updateQRCode = async () => {
-        if (timerRef.current !== null) {
-            clearTimeout(timerRef.current);
-        }
-
-        setIsCreatingQR(true);
-        const {
-            key,
-            expireIn,
-            sign
-        } = await api.sessions.getTempKey();
-
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        timerRef.current = setTimeout(updateQRCode, expireIn - (expireIn * 0.10));
-
-        await QRCode.toCanvas(
-            canvasRef.current,
-            JSON.stringify({
-                userId: Session.user?.id,
-                key,
-                sign
-            })
-        );
-        setIsCreatingQR(false);
-    };
-
-    useEffect(() => {
-        if (showQRCode === false && timerRef.current !== null) {
-            clearTimeout(timerRef.current);
-        }
-
-        return () => {
-            if (timerRef.current) {
-                clearTimeout(timerRef.current);
-            }
-        };
-    }, [showQRCode]);
-
     return (
         <ModalPage
             nav={nav}
@@ -129,23 +80,7 @@ export const SessionsPage: FC<
             })}
             <Separator wide/>
             <CellButton
-                style={{
-                    display: showQRCode ? "none" : undefined 
-                }}
-                onClick={() => {
-                    setShowQRCode(true);
-                    void updateQRCode();
-                }}
-                expandable
-                before={<Icon28QrCodeOutline />}
-            >
-                Добавить новое устройство через QR-код
-            </CellButton>
-            <CellButton
                 mode="danger"
-                style={{
-                    display: showQRCode ? "none" : undefined 
-                }}
                 onClick={() => {
                     setSessions(null);
                     void api.sessions.reset().then(() => {
@@ -157,46 +92,6 @@ export const SessionsPage: FC<
             >
                 Сбросить все сессии кроме текущей
             </CellButton>
-            <Placeholder
-                style={{
-                    display: !showQRCode ? "none" : undefined 
-                }}
-                action={showQRCode &&
-                    (
-                        <ButtonGroup stretched mode="vertical">
-                            <Button
-                                stretched
-                                size="m"
-                                appearance="positive"
-                                onClick={updateQRCode}
-                                disabled={isCreatingQR}
-                            >
-                                Сгенерировать снова
-                            </Button>
-                            <Button
-                                stretched
-                                size="m"
-                                appearance="neutral"
-                                onClick={() => setShowQRCode(false)}
-                            >
-                                Закрыть
-                            </Button>
-                        </ButtonGroup>
-                    )
-                }
-            >
-                {showQRCode && isCreatingQR && (
-                    <Placeholder>
-                        <Spinner size="large" />
-                    </Placeholder>
-                )}
-                <canvas
-                    style={{
-                        display: (isCreatingQR || !showQRCode) ? "none" : undefined
-                    }} 
-                    ref={canvasRef} 
-                />
-            </Placeholder>
         </ModalPage>
     );
 };

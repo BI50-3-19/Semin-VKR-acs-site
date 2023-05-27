@@ -31,7 +31,7 @@ const Layout: FC = () => {
             }
         ];
 
-        if (Session.hasAccess("users:get")) {
+        if (Session.hasAccess("users:manage")) {
             buttons.push({
                 icon: <Icon28Users3 />,
                 story: "/users",
@@ -62,10 +62,10 @@ const Layout: FC = () => {
             buttons={buttons}
         >
             <View nav="/">
-                <MainPage nav="/" />
+                <MainPage nav="/" isOnePage={buttons.length === 0} />
             </View>
 
-            {Session.hasAccess("users:get") && (
+            {Session.hasAccess("users:manage") && (
                 <View nav="/users">
                     <UsersPage nav="/" />
                 </View>
