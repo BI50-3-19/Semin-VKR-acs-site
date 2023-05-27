@@ -8,7 +8,8 @@ import {
     NavIdProps, 
     Panel,
     PanelHeader,
-    Placeholder
+    Placeholder,
+    useAdaptivityWithJSMediaQueries
 } from "@vkontakte/vkui";
 
 import { FC } from "react";
@@ -20,6 +21,8 @@ import HeaderLeftButtons from "@/components/adaptivity/header-buttons";
 import { AccountNotCreated } from "@/popouts";
 
 const MainPage: FC<NavIdProps> = ({ id }) => {
+    const { isDesktop } = useAdaptivityWithJSMediaQueries();
+
     if (Session.user === null) {
         return (
             <Panel id={id}>
@@ -55,7 +58,7 @@ const MainPage: FC<NavIdProps> = ({ id }) => {
 
     return (
         <Panel id={id}>
-            <PanelHeader separator={false} before={<HeaderLeftButtons />}>REA ACS</PanelHeader>
+            <PanelHeader separator={false} before={!isDesktop && <HeaderLeftButtons />}>REA ACS</PanelHeader>
             <Profile user={Session.user}/>
             <QRCode />
         </Panel>
