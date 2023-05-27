@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 import APIError, { IAPIError } from "./error";
 
@@ -20,6 +20,7 @@ interface IAPIParams {
 
 class API {
     private readonly _apiUrl: string;
+    private readonly _instance: AxiosInstance;
 
     public readonly auth: APIAuth;
     public readonly sessions: APISessions;
@@ -30,6 +31,13 @@ class API {
 
     constructor(options?: IAPIParams) {
         this._apiUrl = options?.apiUrl || "https://acs.rus-anonym-team.ru";
+
+        this._instance = axios.create({
+            baseURL: this._apiUrl,
+            headers: Storage.hasAuthInfo() ? {
+                "Authorization": `Bearer ${Storage.accessToken}`
+            } : undefined,
+        });
 
         this.auth = new APIAuth(this);
         this.sessions = new APISessions(this);
@@ -49,7 +57,7 @@ class API {
             | { response: Res; error: never }
             | { response: never; error: IAPIError };
 
-        const response = await axios<TResponse>({
+        const response = await this._instance<TResponse>({
             headers: Storage.hasAuthInfo() ? {
                 "Authorization": `Bearer ${Storage.accessToken}`
             } : undefined,

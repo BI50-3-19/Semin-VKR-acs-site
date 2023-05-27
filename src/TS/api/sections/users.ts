@@ -23,6 +23,17 @@ class APIUsers extends APISection {
     }): Promise<IUsersGetResponse[]> {
         return this._call("users.getList", params);
     }
+
+    public async getAvatar(params?: {
+        userId?: number
+    }): Promise<string> {
+        const response = await this._instance.get<Blob>("users.getAvatar", {
+            responseType: "blob",
+            params
+        });
+
+        return URL.createObjectURL(response.data);
+    }
 }
 
 export type { IUsersGetResponse };

@@ -3,7 +3,6 @@ import { IAccountGetStatsResponse } from "@/TS/api/sections/account";
 import { ISessionsGetActiveItemResponse } from "@/TS/api/sections/sessions";
 import { IUsersGetResponse } from "@/TS/api/types";
 import Session from "@/TS/store/Session";
-import Storage from "@/TS/store/Storage";
 import {
     Icon28CheckShieldDeviceOutline,
     Icon28DevicesOutline,
@@ -17,7 +16,6 @@ import {
     Spinner,
     Title
 } from "@vkontakte/vkui";
-import axios from "axios";
 import moment from "moment";
 import {
     useEffect,
@@ -30,15 +28,11 @@ const Profile = ({ user }: {user: IUsersGetResponse}) => {
     const [avatar, setAvatar] = useState<string>();
 
     useEffect(() => {
-        void (async () => {
-            const response = await axios.get<Blob>(api.getUrl("users.getAvatar"), {
-                headers: Storage.hasAuthInfo() ? {
-                    "Authorization": `Bearer ${Storage.accessToken}`
-                } : undefined,
-                responseType: "blob"
-            });
-            setAvatar(URL.createObjectURL(response.data));
-        })();
+        if (user.hasAvatar === false) {
+            return;
+        }
+
+        void api.users.getAvatar().then(setAvatar);
     }, [user]);
 
     useEffect(() => {
