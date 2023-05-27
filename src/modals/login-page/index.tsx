@@ -58,7 +58,9 @@ const LoginModalPage: FC<
             });
             Storage.setTokens(response);
             await Session.load();
+            Session.setView("/");
             setIsLoad(false);
+            Session.setModal(null);
         } catch (error) {
             if (error instanceof APIError) {
                 if (error.code === 4) {
@@ -67,7 +69,9 @@ const LoginModalPage: FC<
                     });
                 } else if (error.code === 5) {
                     set2FA(true);
+                    Session.setView("/");
                     setIsLoad(false);
+                    Session.setModal(null);
                 } else if (error.code === 6) {
                     Session.setModal("error-card",{
                         message: "Неверный OTP код"
@@ -176,6 +180,7 @@ const LoginModalPage: FC<
                     )}
 
                     {byQRCode && <QRReader 
+                        scanInterval={250}
                         onResult={(result) => {
                             const QRInfo = JSON.parse(result) as Record<string, unknown>;
 
@@ -184,7 +189,13 @@ const LoginModalPage: FC<
                                     message: "Неверный QR"
                                 });
                             } else {
-                                return authByQR(QRInfo as unknown as IAuthByTempKeyParams);
+                                if (isLoad) {
+                                    return;
+                                } else {
+                                    setByQRCode(false);
+                                    return authByQR(QRInfo as unknown as IAuthByTempKeyParams);
+                                }
+                                
                             }
                         }}
                         onResize={forceUpdate}

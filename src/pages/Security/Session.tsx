@@ -86,6 +86,7 @@ const SecuritySessionPage: FC<{ session: SecuritySession }> = ({ session }) => {
         return (
             <Group>
                 <QRReader 
+                    scanInterval={100}
                     onResult={async (result) => {
                         try {
                             const QRInfo = JSON.parse(result) as Record<string, unknown>;

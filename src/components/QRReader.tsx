@@ -6,7 +6,8 @@ import {
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import { useEffect, useState } from "react";
 
-const QRReader = ({ onResult, onResize }:{ 
+const QRReader = ({ onResult, onResize, scanInterval }:{
+    scanInterval: number;
     onResult: (value: string) => void; 
     onResize: () => void;
 }) =>{
@@ -32,7 +33,7 @@ const QRReader = ({ onResult, onResize }:{
                 containerStyle={{
                     borderRadius: "15px"
                 }}
-                scanDelay={0}
+                scanDelay={scanInterval}
                 onResult={(result) => onResult(result.getText())}
                 onError={(err) => {console.log(err); setHasError(true);}}
             />
