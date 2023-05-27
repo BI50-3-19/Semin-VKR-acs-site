@@ -72,7 +72,7 @@ const Layout: FC = () => {
             buttons={buttons}
         >
             <View nav="/">
-                <MainPage nav="/" isOnePage={buttons.length === 0} />
+                <MainPage nav="/" />
             </View>
 
             {Session.hasAccess("users:manage") && (

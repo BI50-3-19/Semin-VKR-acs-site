@@ -19,9 +19,7 @@ import HeaderLeftButtons from "@/components/adaptivity/header-buttons";
 
 import { AccountNotCreated } from "@/popouts";
 
-const MainPage: FC<NavIdProps & {
-    isOnePage: boolean;
-}> = ({ nav, isOnePage }) => {
+const MainPage: FC<NavIdProps> = ({ nav }) => {
     if (Session.user === null) {
         return (
             <Panel nav={nav}>
@@ -55,7 +53,7 @@ const MainPage: FC<NavIdProps & {
 
     return (
         <Panel nav={nav}>
-            <PanelHeader separator={false} before={isOnePage && <HeaderLeftButtons />}>REA ACS</PanelHeader>
+            <PanelHeader separator={false} before={<HeaderLeftButtons />}>REA ACS</PanelHeader>
             <Profile user={Session.user}/>
             <QRCode />
         </Panel>
