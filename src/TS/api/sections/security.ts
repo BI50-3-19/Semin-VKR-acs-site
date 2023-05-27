@@ -62,6 +62,14 @@ class APISecurity extends APISection {
     public getReasons(): Promise<ISecurityGetReasonsItemResponse[]> {
         return this._call("security.getReasons");
     }
+
+    public createReason(params: { title: string }): Promise<1> {
+        return this._call("security.createReason", params);
+    }
+
+    public deleteReason(params: { id: number }): Promise<1> {
+        return this._call("security.deleteReason", params);
+    }
 }
 
 export type { ISecurityCheckAccessToAreaResponse, ISecurityGetReasonsItemResponse };

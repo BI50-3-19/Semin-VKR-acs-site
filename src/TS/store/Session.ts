@@ -129,8 +129,12 @@ class Session {
         this.snackbar = snackbar;
     }
 
-    public setPopout(popout: JSX.Element | null): void {
+    public setPopout(popout: JSX.Element | null, ms?: number): void {
         this.popout = popout;
+
+        if (ms) {
+            setTimeout(() => this.setPopout(null), ms);
+        }
     }
 
     public setModal(modal: string | null, payload?: unknown): void {

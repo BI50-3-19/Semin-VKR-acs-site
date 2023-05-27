@@ -39,7 +39,7 @@ const CreateSecuritySession = () => {
     return (
         <Group>
             <FormStatus mode="default">
-                Для начала сессии, необходимо указать охраняемые зоны
+                Для начала смены, необходимо указать охраняемые зоны
             </FormStatus>
             <FormLayout>
                 <FormLayoutGroup mode="horizontal">
@@ -106,7 +106,7 @@ const CreateSecuritySession = () => {
                     subtitle={`От ${moment(hasSessionBackup).format("DD.MM.YYYY, HH:mm:ss")}`}
                     onClick={SecuritySession.restoreBackup.bind(SecuritySession)}
                 >
-                    Восстановить сессию
+                    Восстановить смену
                 </CellButton>
             )}
         </Group>

@@ -17,8 +17,13 @@ import {
 import Session from "./TS/store/Session";
 
 import { ModalRoot, View } from "@vkontakte/vkui";
+
 import MainPage from "./pages/Main";
+
 import SecurityPage from "./pages/Security";
+import SecurityReasonsPage from "./pages/Security/Reasons";
+import SecuritySessionPage from "./pages/Security/Session";
+
 import UsersPage from "./pages/Users";
 
 const Layout: FC = () => {
@@ -79,6 +84,8 @@ const Layout: FC = () => {
             {Session.hasAccess("security") && (
                 <View id="/security" activePanel={Session.activePanel}>
                     <SecurityPage id="/" />
+                    <SecuritySessionPage id="/session" />
+                    <SecurityReasonsPage id="/reasons" />
                 </View>
             )}
         </AdaptivityLayout>

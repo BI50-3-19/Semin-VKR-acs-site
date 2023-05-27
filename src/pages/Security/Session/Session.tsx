@@ -24,7 +24,7 @@ import {
 } from "@vkontakte/icons";
 import SecurityUserInfo from "./User";
 
-const SecuritySessionPage: FC<{ session: SecuritySession }> = ({ session }) => {
+const SecuritySessionComponent: FC<{ session: SecuritySession }> = ({ session }) => {
     const [direction, setDirection] = useState<"next" | "prev">("next");
     const [userId, setUserId] = useState<number | null>(null);
 
@@ -186,4 +186,4 @@ const SecuritySessionPage: FC<{ session: SecuritySession }> = ({ session }) => {
     );
 };
 
-export default SecuritySessionPage;
+export default SecuritySessionComponent;

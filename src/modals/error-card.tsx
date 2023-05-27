@@ -6,13 +6,16 @@ import { observer } from "mobx-react";
 import { FC, useMemo } from "react";
 
 const ErrorCard: FC<NavIdProps> = ({ id }) => {
-    const { message } = useMemo<{ message?: string }>(() => Session.cache.get("modal-error-card"), []);
+    const error = useMemo<{ 
+        error?: string; 
+        message?: string;
+    }>(() => Session.cache.get("modal-error-card"), []);
 
     return (
         <ModalCard
             id={id}
-            header="Ошибка"
-            subheader={message || "Неизвестная ошибка"}
+            header={error?.error || "Ошибка"}
+            subheader={error?.message || "Неизвестная ошибка"}
             actions={
                 <ButtonGroup gap="m" mode="horizontal" stretched>
                     <Button
