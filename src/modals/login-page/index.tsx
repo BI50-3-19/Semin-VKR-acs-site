@@ -60,6 +60,7 @@ const LoginModalPage: FC<
             await Session.load();
             Session.setView("/");
             setIsLoad(false);
+            Session.setModal(null);
         } catch (error) {
             if (error instanceof APIError) {
                 if (error.code === 4) {

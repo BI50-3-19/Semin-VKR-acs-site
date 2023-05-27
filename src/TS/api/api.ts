@@ -50,13 +50,13 @@ class API {
             | { response: never; error: IAPIError };
 
         const response = await axios<TResponse>({
-            ...params,
             headers: Storage.hasAuthInfo() ? {
                 "Authorization": `Bearer ${Storage.accessToken}`
             } : undefined,
             method: "POST",
-            url: `${this._apiUrl}/${method}`,
-            data
+            url: this.getUrl(method),
+            data,
+            ...params
         });
 
         if (response.data.error) {
@@ -77,6 +77,10 @@ class API {
         } else {
             return response.data.response;
         }
+    }
+
+    public getUrl(method: string): string {
+        return `${this._apiUrl}/${method}`;
     }
 }
 

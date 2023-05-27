@@ -3,6 +3,7 @@ import { IAccountGetStatsResponse } from "@/TS/api/sections/account";
 import { ISessionsGetActiveItemResponse } from "@/TS/api/sections/sessions";
 import { IUsersGetResponse } from "@/TS/api/types";
 import Session from "@/TS/store/Session";
+import Storage from "@/TS/store/Storage";
 import {
     Icon28CheckShieldDeviceOutline,
     Icon28DevicesOutline,
@@ -16,12 +17,29 @@ import {
     Spinner,
     Title
 } from "@vkontakte/vkui";
+import axios from "axios";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import {
+    useEffect,
+    useState
+} from "react";
 
 const Profile = ({ user }: {user: IUsersGetResponse}) => {
     const [sessions, setSessions] = useState<ISessionsGetActiveItemResponse[] | null>(null);
     const [stats, setStats] = useState<IAccountGetStatsResponse | null>(null);
+    const [avatar, setAvatar] = useState<string>();
+
+    useEffect(() => {
+        void (async () => {
+            const response = await axios.get<Blob>(api.getUrl("users.getAvatar"), {
+                headers: Storage.hasAuthInfo() ? {
+                    "Authorization": `Bearer ${Storage.accessToken}`
+                } : undefined,
+                responseType: "blob"
+            });
+            setAvatar(URL.createObjectURL(response.data));
+        })();
+    }, [user]);
 
     useEffect(() => {
         void api.sessions.getActive().then(setSessions);
@@ -39,7 +57,7 @@ const Profile = ({ user }: {user: IUsersGetResponse}) => {
                     textAlign: "center"
                 }}
             >
-                <Avatar size={96} initials={`${user.surname[0]}${user.name[0]}`} src="" />
+                <Avatar size={96} initials={`${user.surname[0]}${user.name[0]}`} src={avatar !== undefined ? avatar : undefined} />
                 <Title
                     style={{
                         marginBottom: 8, marginTop: 20, fontSize: 24 
