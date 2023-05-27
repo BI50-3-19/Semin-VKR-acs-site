@@ -1,6 +1,6 @@
 import Session from "@/TS/store/Session";
 import {
-    Button, ButtonGroup, ModalCard, NavIdProps 
+    Button, ButtonGroup, ModalCard, NavIdProps
 } from "@vkontakte/vkui";
 import { observer } from "mobx-react";
 import { FC, useMemo } from "react";

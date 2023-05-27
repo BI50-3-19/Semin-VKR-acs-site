@@ -4,7 +4,7 @@ import { ISecurityCheckAccessToAreaResponse } from "@/TS/api/sections/security";
 import { IUsersGetResponse } from "@/TS/api/types";
 import Session, { SecuritySession } from "@/TS/store/Session";
 import utils from "@rus-anonym/web-utils";
-import { Icon28ArrowRightOutline, Icon28ArrowLeftOutline } from "@vkontakte/icons";
+import { Icon28ArrowLeftOutline, Icon28ArrowRightOutline } from "@vkontakte/icons";
 import {
     Alert,
     Avatar,
@@ -15,17 +15,17 @@ import {
     FormItem,
     FormLayout,
     FormStatus,
-    Group, 
-    IconButton, 
-    Placeholder, 
-    ScreenSpinner, 
-    Select, 
-    Separator, 
-    SimpleCell, 
-    Spacing, 
-    Spinner, 
-    Textarea, 
-    Title 
+    Group,
+    IconButton,
+    Placeholder,
+    ScreenSpinner,
+    Select,
+    Separator,
+    SimpleCell,
+    Spacing,
+    Spinner,
+    Textarea,
+    Title
 } from "@vkontakte/vkui";
 import { useEffect, useState } from "react";
 

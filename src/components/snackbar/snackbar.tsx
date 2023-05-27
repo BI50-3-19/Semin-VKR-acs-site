@@ -1,4 +1,3 @@
-import { FC } from "react";
 import {
     Icon20CancelCircleFillRed,
     Icon20CheckCircleFillGreen
@@ -8,10 +7,11 @@ import {
     SnackbarProps,
     useAdaptivityWithJSMediaQueries
 } from "@vkontakte/vkui";
+import { FC } from "react";
 
-import styles from "./snackbar.module.css";
 import session from "@/TS/store/Session";
 import { observer } from "mobx-react";
+import styles from "./snackbar.module.css";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 type BaseSnackbarProps = Omit<SnackbarProps, "onClose">;

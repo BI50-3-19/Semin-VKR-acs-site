@@ -1,12 +1,14 @@
+import api from "@/TS/api";
 import { IUsersGetResponse } from "@/TS/api/types";
 import {
-    NavIdProps, Panel, Group, PanelHeader 
+    Group,
+    NavIdProps, Panel,
+    PanelHeader
 } from "@vkontakte/vkui";
 import {
-    FC, useEffect, useState 
+    FC, useEffect, useState
 } from "react";
 import User from "./User";
-import api from "@/TS/api";
 
 const UsersPage: FC<NavIdProps> = ({ id }) => {
     const [users, setUsers] = useState<IUsersGetResponse[]>([]);

@@ -1,20 +1,19 @@
 
-import React from "react";
 
 import {
     Button,
     ButtonGroup,
     Div,
     PanelHeaderButton,
+    unstable_Popover as Popover,
     useAdaptivityWithJSMediaQueries,
 } from "@vkontakte/vkui";
-import {  unstable_Popover as Popover } from "@vkontakte/vkui";
 
 import {
-    Icon28MoonOutline,
-    Icon28SunOutline,
     Icon28ComputerOutline,
+    Icon28MoonOutline,
     Icon28SmartphoneOutline,
+    Icon28SunOutline,
 } from "@vkontakte/icons";
 
 import Session from "@/TS/store/Session";

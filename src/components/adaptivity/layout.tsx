@@ -1,7 +1,4 @@
 import {
-    FC, useEffect, useState 
-} from "react";
-import {
     Epic,
     PanelHeader,
     SplitCol,
@@ -9,14 +6,16 @@ import {
     SplitLayoutProps,
     useAdaptivityWithJSMediaQueries
 } from "@vkontakte/vkui";
+import {
+    FC, useEffect, useState
+} from "react";
 
 import AdaptivitySidebar from "./sidebar";
 import { AdaptivityTabbar } from "./tabbar";
 
-import session from "@/TS/store/Session";
-import { observer } from "mobx-react";
+import { default as Session, default as session } from "@/TS/store/Session";
 import { autorun, toJS } from "mobx";
-import Session from "@/TS/store/Session";
+import { observer } from "mobx-react";
 
 export type TAdaptivityButton = {
   story: string;

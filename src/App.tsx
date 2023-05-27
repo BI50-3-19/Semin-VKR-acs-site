@@ -8,14 +8,14 @@ import {
     WebviewType,
     platform
 } from "@vkontakte/vkui";
+import { observer } from "mobx-react";
+import { useEffect, useState } from "react";
 import Session from "./TS/store/Session";
 import Layout from "./layout";
-import { useEffect, useState } from "react";
-import { observer } from "mobx-react";
 
-import "./app.css";
-import Storage from "./TS/store/Storage";
 import "moment/dist/locale/ru";
+import Storage from "./TS/store/Storage";
+import "./app.css";
 
 const App = () => {
     const [isLoad, setIsLoad] = useState<boolean>(true);

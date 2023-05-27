@@ -2,14 +2,14 @@ import axios, { AxiosRequestConfig } from "axios";
 
 import APIError, { IAPIError } from "./error";
 
+import APIAccount from "./sections/account";
 import APIAuth from "./sections/auth";
+import APISecurity from "./sections/security";
 import APISessions from "./sections/sessions";
 import APIUsers from "./sections/users";
-import APISecurity from "./sections/security";
-import APIAccount from "./sections/account";
 
-import Storage from "../store/Storage";
 import Session from "../store/Session";
+import Storage from "../store/Storage";
 
 import APIAreas from "./sections/areas";
 

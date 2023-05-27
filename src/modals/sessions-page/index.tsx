@@ -1,6 +1,10 @@
+import api from "@/TS/api";
+import { ISessionsGetActiveItemResponse } from "@/TS/api/sections/sessions";
+import Session from "@/TS/store/Session";
 import {
-    FC, useEffect, useMemo, useState 
-} from "react";
+    Icon24DoorArrowLeftOutline,
+    Icon28DoorArrowLeftOutline
+} from "@vkontakte/icons";
 import {
     CellButton,
     Group,
@@ -13,15 +17,11 @@ import {
     Separator,
     Spinner
 } from "@vkontakte/vkui";
-import api from "@/TS/api";
-import { ISessionsGetActiveItemResponse } from "@/TS/api/sections/sessions";
+import { observer } from "mobx-react";
 import moment from "moment";
 import {
-    Icon24DoorArrowLeftOutline,
-    Icon28DoorArrowLeftOutline
-} from "@vkontakte/icons";
-import Session from "@/TS/store/Session";
-import { observer } from "mobx-react";
+    FC, useEffect, useMemo, useState
+} from "react";
 
 const SessionCell = ({ session, onChangeList }: {session: ISessionsGetActiveItemResponse; onChangeList: () => void;}) => {
     return (

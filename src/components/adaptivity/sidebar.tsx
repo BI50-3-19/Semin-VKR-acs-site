@@ -1,8 +1,9 @@
-import { FC } from "react";
 import {
-    Cell, Group, List, PanelHeader, PanelHeaderContent, SplitCol 
+    Cell, Group, List, PanelHeader,
+    SplitCol
 } from "@vkontakte/vkui";
 import { observer } from "mobx-react";
+import { FC } from "react";
 
 import { TAdaptivityButton } from "./layout";
 
@@ -10,8 +11,8 @@ type TAdaptivitySidebarProps = {
     buttons: TAdaptivityButton[];
 };
 
-import HeaderLeftButtons from "./header-buttons";
 import Session from "@/TS/store/Session";
+import HeaderLeftButtons from "./header-buttons";
 
 const AdaptivitySidebar: FC<TAdaptivitySidebarProps> = ({ buttons }) => {
     return (

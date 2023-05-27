@@ -5,7 +5,7 @@ import {
     Button,
     ButtonGroup,
     Group,
-    NavIdProps, 
+    NavIdProps,
     Panel,
     PanelHeader,
     Placeholder,
@@ -14,9 +14,9 @@ import {
 
 import { FC } from "react";
 
+import HeaderLeftButtons from "@/components/adaptivity/header-buttons";
 import Profile from "./Profile";
 import QRCode from "./QRCode";
-import HeaderLeftButtons from "@/components/adaptivity/header-buttons";
 
 import { AccountNotCreated } from "@/popouts";
 

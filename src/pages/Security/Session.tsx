@@ -1,25 +1,27 @@
 import {
-    FC, useEffect, useMemo, useState 
+    FC, useEffect, useMemo, useState
 } from "react";
 
 import {
     Button,
     CellButton,
-    Group, 
-    IconButton, 
-    Placeholder, 
-    Separator, 
-    SimpleCell, 
-    Spacing 
+    Group,
+    IconButton,
+    Placeholder,
+    Separator,
+    SimpleCell,
+    Spacing
 } from "@vkontakte/vkui";
 
+import api from "@/TS/api";
 import Session, { SecuritySession } from "@/TS/store/Session";
-import {
-    Icon28ArrowRightOutline, Icon28ArrowLeftOutline, Icon28DeleteOutline, Icon28QrCodeOutline 
-} from "@vkontakte/icons";
 import QRReader from "@/components/QRReader";
 import useForceUpdate from "@/hooks/useForceUpdate";
-import api from "@/TS/api";
+import {
+    Icon28ArrowLeftOutline,
+    Icon28ArrowRightOutline,
+    Icon28DeleteOutline, Icon28QrCodeOutline
+} from "@vkontakte/icons";
 import SecurityUserInfo from "./User";
 
 const SecuritySessionPage: FC<{ session: SecuritySession }> = ({ session }) => {

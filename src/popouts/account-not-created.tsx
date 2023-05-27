@@ -1,8 +1,8 @@
-import { FC } from "react";
-import {
-    Alert, NavIdProps, useAdaptivityWithJSMediaQueries 
-} from "@vkontakte/vkui";
 import Session from "@/TS/store/Session";
+import {
+    Alert, NavIdProps, useAdaptivityWithJSMediaQueries
+} from "@vkontakte/vkui";
+import { FC } from "react";
 
 export const AccountNotCreated: FC<NavIdProps> = () => {
     const { isDesktop } = useAdaptivityWithJSMediaQueries();

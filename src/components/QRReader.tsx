@@ -1,9 +1,10 @@
 import { Icon56CameraOffOutline } from "@vkontakte/icons";
 import {
-    Group, Placeholder, Div 
+    Div,
+    Group, Placeholder
 } from "@vkontakte/vkui";
-import { useState, useEffect } from "react";
 import { QrScanner } from "@yudiel/react-qr-scanner";
+import { useEffect, useState } from "react";
 
 const QRReader = ({ onResult, onResize }:{ 
     onResult: (value: string) => void; 

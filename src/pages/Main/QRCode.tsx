@@ -1,12 +1,15 @@
 import {
-    useRef, useState, useEffect 
+    useEffect,
+    useRef, useState
 } from "react";
 
-import QRCodeGenerator from "qrcode";
-import {
-    Group, Placeholder, Button, ButtonGroup, Spinner 
-} from "@vkontakte/vkui";
 import { Icon28QrCodeOutline } from "@vkontakte/icons";
+import {
+    Button, ButtonGroup,
+    Group, Placeholder,
+    Spinner
+} from "@vkontakte/vkui";
+import QRCodeGenerator from "qrcode";
 
 
 import api from "@/TS/api";

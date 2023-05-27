@@ -9,17 +9,17 @@ import AdaptivityLayout, { TAdaptivityButton } from "@/components/adaptivity/lay
 import { observer } from "mobx-react";
 
 import {
-    LoginModalPage,
-    SessionsModalPage,
     ErrorModalCard,
-    SecurityErrorModalCard
+    LoginModalPage,
+    SecurityErrorModalCard,
+    SessionsModalPage
 } from "./modals";
 import Session from "./TS/store/Session";
 
+import { ModalRoot, View } from "@vkontakte/vkui";
 import MainPage from "./pages/Main";
 import SecurityPage from "./pages/Security";
 import UsersPage from "./pages/Users";
-import { ModalRoot, View } from "@vkontakte/vkui";
 
 const Layout: FC = () => {
     const buttons = useMemo<TAdaptivityButton[]>(() => {

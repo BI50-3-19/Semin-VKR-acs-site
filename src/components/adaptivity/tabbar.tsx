@@ -1,8 +1,8 @@
-import { FC } from "react";
 import { Tabbar, TabbarItem } from "@vkontakte/vkui";
+import { FC } from "react";
 
-import { TAdaptivityButton } from "./layout";
 import Session from "@/TS/store/Session";
+import { TAdaptivityButton } from "./layout";
 
 type TAdaptivityTabbarProps = {
     buttons: TAdaptivityButton[];

@@ -3,7 +3,7 @@ import { IAreasGetListItemResponse } from "@/TS/api/sections/areas";
 import Session, { SecuritySession } from "@/TS/store/Session";
 import {
     Button,
-    FormItem, FormLayout, FormLayoutGroup, FormStatus, Group, Placeholder, Select, Spinner 
+    FormItem, FormLayout, FormLayoutGroup, FormStatus, Group, Placeholder, Select, Spinner
 } from "@vkontakte/vkui";
 import { useEffect, useState } from "react";
 

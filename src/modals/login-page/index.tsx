@@ -1,6 +1,11 @@
-import {
-    FC, useMemo, useState 
-} from "react";
+import api from "@/TS/api";
+import APIError from "@/TS/api/error";
+import { IAuthByTempKeyParams } from "@/TS/api/sections/auth";
+import Session from "@/TS/store/Session";
+import Storage from "@/TS/store/Storage";
+import QRReader from "@/components/QRReader";
+import useForceUpdate from "@/hooks/useForceUpdate";
+import { Icon28QrCodeOutline } from "@vkontakte/icons";
 import {
     Button,
     FormItem,
@@ -12,15 +17,10 @@ import {
     Placeholder,
     Spinner
 } from "@vkontakte/vkui";
-import api from "@/TS/api";
-import APIError from "@/TS/api/error";
-import Storage from "@/TS/store/Storage";
-import Session from "@/TS/store/Session";
-import { Icon28QrCodeOutline } from "@vkontakte/icons";
-import QRReader from "@/components/QRReader";
-import useForceUpdate from "@/hooks/useForceUpdate";
-import { IAuthByTempKeyParams } from "@/TS/api/sections/auth";
 import { observer } from "mobx-react";
+import {
+    FC, useMemo, useState
+} from "react";
 
 const LoginModalPage: FC<
     NavIdProps & { dynamicContentHeight: boolean }

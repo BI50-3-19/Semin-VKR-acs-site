@@ -4,17 +4,17 @@ import { ISessionsGetActiveItemResponse } from "@/TS/api/sections/sessions";
 import { IUsersGetResponse } from "@/TS/api/types";
 import Session from "@/TS/store/Session";
 import {
-    Icon28KeyOutline, 
-    Icon28CheckShieldDeviceOutline, 
-    Icon28DevicesOutline 
+    Icon28CheckShieldDeviceOutline,
+    Icon28DevicesOutline,
+    Icon28KeyOutline
 } from "@vkontakte/icons";
 import {
-    Group, 
-    Avatar, 
-    Title,
+    Avatar,
+    Group,
     SimpleCell,
     Spacing,
-    Spinner
+    Spinner,
+    Title
 } from "@vkontakte/vkui";
 import moment from "moment";
 import { useEffect, useState } from "react";

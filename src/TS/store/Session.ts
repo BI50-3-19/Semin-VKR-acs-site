@@ -1,10 +1,10 @@
 import { AppearanceType } from "@vkontakte/vk-bridge";
 import { makeAutoObservable } from "mobx";
-import { IUsersGetResponse } from "../api/types";
 import api from "../api";
-import Storage from "./Storage";
 import { IAreasGetListItemResponse } from "../api/sections/areas";
 import { ISecurityGetReasonsItemResponse } from "../api/sections/security";
+import { IUsersGetResponse } from "../api/types";
+import Storage from "./Storage";
 
 class Cache {
     private readonly _values: Record<string, unknown> = {
