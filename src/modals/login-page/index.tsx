@@ -60,7 +60,6 @@ const LoginModalPage: FC<
             await Session.load();
             Session.setView("/");
             setIsLoad(false);
-            Session.setModal(null);
         } catch (error) {
             if (error instanceof APIError) {
                 if (error.code === 4) {
@@ -69,9 +68,7 @@ const LoginModalPage: FC<
                     });
                 } else if (error.code === 5) {
                     set2FA(true);
-                    Session.setView("/");
                     setIsLoad(false);
-                    Session.setModal(null);
                 } else if (error.code === 6) {
                     Session.setModal("error-card",{
                         message: "Неверный OTP код"
