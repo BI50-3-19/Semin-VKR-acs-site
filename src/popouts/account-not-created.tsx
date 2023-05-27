@@ -1,15 +1,15 @@
 import { FC } from "react";
-import { back } from "@itznevikat/router";
 import {
     Alert, NavIdProps, useAdaptivityWithJSMediaQueries 
 } from "@vkontakte/vkui";
+import Session from "@/TS/store/Session";
 
 export const AccountNotCreated: FC<NavIdProps> = () => {
     const { isDesktop } = useAdaptivityWithJSMediaQueries();
 
     return (
         <Alert
-            onClose={back}
+            onClose={() => Session.setPopout(null)}
             actions={!isDesktop ? [
                 {
                     title: "Закрыть",

@@ -1,5 +1,4 @@
 import {
-    matchPopout,
     ModalRoot,
     useParams,
     View
@@ -9,12 +8,10 @@ import {
     Icon28HomeOutline,
     Icon28Users3
 } from "@vkontakte/icons";
-import { ScreenSpinner } from "@vkontakte/vkui";
 import { FC, useMemo } from "react";
 
 import AdaptivityLayout, { TAdaptivityButton } from "@/components/adaptivity/layout";
 import { observer } from "mobx-react";
-import { AccountNotCreated } from "./popouts";
 
 import {
     ErrorCard,
@@ -29,8 +26,6 @@ import UsersPage from "./pages/Users";
 import { SecurityErrorCard } from "./modals/security-error-card";
 
 const Layout: FC = () => {
-    const { popout = null } = useParams();
-
     const buttons = useMemo<TAdaptivityButton[]>(() => {
         const buttons: TAdaptivityButton[] = [
             {

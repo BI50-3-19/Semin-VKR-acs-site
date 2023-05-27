@@ -17,6 +17,8 @@ import Profile from "./Profile";
 import QRCode from "./QRCode";
 import HeaderLeftButtons from "@/components/adaptivity/header-buttons";
 
+import { AccountNotCreated } from "@/popouts";
+
 const MainPage: FC<NavIdProps & {
     isOnePage: boolean;
 }> = ({ nav, isOnePage }) => {
@@ -40,7 +42,7 @@ const MainPage: FC<NavIdProps & {
                                 stretched 
                                 mode="secondary"
                                 appearance="overlay"
-                                onClick={() => push("/?popout=account-not-created")}
+                                onClick={() => Session.setPopout(<AccountNotCreated />)}
                             >У меня нет аккаунта</Button>
                         </ButtonGroup>
                     }
