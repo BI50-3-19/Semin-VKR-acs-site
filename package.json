@@ -9,7 +9,6 @@
         "lint": "eslint ./src"
     },
     "dependencies": {
-        "@itznevikat/router": "^0.1.0-beta29",
         "@rus-anonym/web-utils": "^1.0.0",
         "@vkontakte/icons": "^2.36.0",
         "@vkontakte/vk-bridge": "^2.7.4",

@@ -1,8 +1,8 @@
 import {
     FC, useEffect, useState 
 } from "react";
-import { Epic, Match } from "@itznevikat/router";
 import {
+    Epic,
     PanelHeader,
     SplitCol,
     SplitLayout,
@@ -16,6 +16,7 @@ import { AdaptivityTabbar } from "./tabbar";
 import session from "@/TS/store/Session";
 import { observer } from "mobx-react";
 import { autorun, toJS } from "mobx";
+import Session from "@/TS/store/Session";
 
 export type TAdaptivityButton = {
   story: string;
@@ -47,38 +48,36 @@ const AdaptivityLayout: FC<TAdaptivityLayoutProps> = ({
     }, []);
 
     return (
-        <Match>
-            <SplitLayout
-                header={!isDesktop && <PanelHeader separator={false} />}
-                style={{
-                    justifyContent: "center"
-                }}
-                {...rest}
+        <SplitLayout
+            header={!isDesktop && <PanelHeader separator={false} />}
+            style={{
+                justifyContent: "center"
+            }}
+            {...rest}
+        >
+            {isDesktop && buttons.length > 0 && (
+                <AdaptivitySidebar buttons={buttons} />
+            )}
+
+            <SplitCol
+                autoSpaced
+                animate={!isDesktop}
+                width={isDesktop ? "650px" : "100%"}
+                maxWidth={isDesktop ? "650px" : "100%"}
             >
-                {isDesktop && buttons.length > 0 && (
-                    <AdaptivitySidebar buttons={buttons} />
-                )}
-
-                <SplitCol
-                    autoSpaced
-                    animate={!isDesktop}
-                    width={isDesktop ? "650px" : "100%"}
-                    maxWidth={isDesktop ? "650px" : "100%"}
-                >
-                    <Epic
-                        nav="/"
-                        tabbar={
-                            !isDesktop &&
+                <Epic
+                    activeStory={Session.activeView}
+                    tabbar={
+                        !isDesktop &&
                             buttons.length > 0 && <AdaptivityTabbar buttons={buttons} />
-                        }
-                    >
-                        {children}
-                    </Epic>
+                    }
+                >
+                    {children}
+                </Epic>
 
-                    {snackbar}
-                </SplitCol>
-            </SplitLayout>
-        </Match>
+                {snackbar}
+            </SplitCol>
+        </SplitLayout>
     );
 };
 

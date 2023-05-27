@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { push, useDeserialized } from "@itznevikat/router";
 import {
     Cell, Group, List, PanelHeader, PanelHeaderContent, SplitCol 
 } from "@vkontakte/vkui";
@@ -12,10 +11,9 @@ type TAdaptivitySidebarProps = {
 };
 
 import HeaderLeftButtons from "./header-buttons";
+import Session from "@/TS/store/Session";
 
 const AdaptivitySidebar: FC<TAdaptivitySidebarProps> = ({ buttons }) => {
-    const { view } = useDeserialized();
-
     return (
         <SplitCol fixed width="280px" maxWidth="280px">
             <PanelHeader separator before={<HeaderLeftButtons />}>
@@ -28,7 +26,7 @@ const AdaptivitySidebar: FC<TAdaptivitySidebarProps> = ({ buttons }) => {
                             key={story}
                             before={icon}
                             style={
-                                view === story
+                                Session.activeView === story
                                     ? {
                                         backgroundColor:
                         "var(--vkui--color_background_secondary)",
@@ -37,7 +35,7 @@ const AdaptivitySidebar: FC<TAdaptivitySidebarProps> = ({ buttons }) => {
                                     : {
                                     }
                             }
-                            onClick={() => view !== story && push(story)}
+                            onClick={() => Session.activeView !== story && Session.setView(story)}
                         >
                             {text}
                         </Cell>

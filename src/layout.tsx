@@ -1,9 +1,4 @@
 import {
-    ModalRoot,
-    useParams,
-    View
-} from "@itznevikat/router";
-import {
     Icon28CheckShieldOutline,
     Icon28HomeOutline,
     Icon28Users3
@@ -14,16 +9,17 @@ import AdaptivityLayout, { TAdaptivityButton } from "@/components/adaptivity/lay
 import { observer } from "mobx-react";
 
 import {
-    ErrorCard,
     LoginModalPage,
-    SessionsPage
+    SessionsModalPage,
+    ErrorModalCard,
+    SecurityErrorModalCard
 } from "./modals";
 import Session from "./TS/store/Session";
 
 import MainPage from "./pages/Main";
 import SecurityPage from "./pages/Security";
 import UsersPage from "./pages/Users";
-import { SecurityErrorCard } from "./modals/security-error-card";
+import { ModalRoot, View } from "@vkontakte/vkui";
 
 const Layout: FC = () => {
     const buttons = useMemo<TAdaptivityButton[]>(() => {
@@ -56,33 +52,33 @@ const Layout: FC = () => {
         } else {
             return [];
         }
-    }, []);
+    }, [Session.user]);
 
     return (
         <AdaptivityLayout
             modal={
-                <ModalRoot>
-                    <LoginModalPage nav="login-page" dynamicContentHeight />
-                    <ErrorCard nav="error-card" />
-                    <SecurityErrorCard nav="security-error-card" />
-                    <SessionsPage nav="sessions-list" dynamicContentHeight />
+                <ModalRoot activeModal={Session.activeModal} onClose={() => Session.setModal(null)}>
+                    <LoginModalPage id="login-page" dynamicContentHeight />
+                    <SessionsModalPage id="sessions-list" dynamicContentHeight />
+                    <ErrorModalCard id="error-card" />
+                    <SecurityErrorModalCard id="security-error-card" />
                 </ModalRoot>
             }
             popout={Session.popout}
             buttons={buttons}
         >
-            <View nav="/">
-                <MainPage nav="/" />
+            <View id="/" activePanel={Session.activePanel}>
+                <MainPage id="/" />
             </View>
 
             {Session.hasAccess("users:manage") && (
-                <View nav="/users">
-                    <UsersPage nav="/" />
+                <View id="/users" activePanel={Session.activePanel}>
+                    <UsersPage id="/" />
                 </View>
             )}
             {Session.hasAccess("security") && (
-                <View nav="/security">
-                    <SecurityPage nav="/" />
+                <View id="/security" activePanel={Session.activePanel}>
+                    <SecurityPage id="/" />
                 </View>
             )}
         </AdaptivityLayout>

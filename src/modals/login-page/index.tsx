@@ -13,7 +13,6 @@ import {
     Spinner
 } from "@vkontakte/vkui";
 import api from "@/TS/api";
-import { replace } from "@itznevikat/router";
 import APIError from "@/TS/api/error";
 import Storage from "@/TS/store/Storage";
 import Session from "@/TS/store/Session";
@@ -21,10 +20,11 @@ import { Icon28QrCodeOutline } from "@vkontakte/icons";
 import QRReader from "@/components/QRReader";
 import useForceUpdate from "@/hooks/useForceUpdate";
 import { IAuthByTempKeyParams } from "@/TS/api/sections/auth";
+import { observer } from "mobx-react";
 
-export const LoginModalPage: FC<
+const LoginModalPage: FC<
     NavIdProps & { dynamicContentHeight: boolean }
-> = ({ nav }) => {
+> = ({ id }) => {
     const [isLoad, setIsLoad] = useState(false);
     const [has2FA, set2FA] = useState(false);
     const [byQRCode, setByQRCode] = useState(false);
@@ -58,28 +58,27 @@ export const LoginModalPage: FC<
             });
             Storage.setTokens(response);
             await Session.load();
-            replace("/");
             setIsLoad(false);
         } catch (error) {
             if (error instanceof APIError) {
                 if (error.code === 4) {
-                    replace("/?modal=error-card", {
+                    Session.setModal("error-card", {
                         message: "Неверный логин или пароль",
                     });
                 } else if (error.code === 5) {
                     set2FA(true);
                     setIsLoad(false);
                 } else if (error.code === 6) {
-                    replace("/?modal=error-card", {
+                    Session.setModal("error-card",{
                         message: "Неверный OTP код"
                     });
                 } else {
-                    replace("/?modal=error-card", {
+                    Session.setModal("error-card",{
                         message: "Неизвестная ошибка"
                     });
                 }
             } else {
-                replace("/?modal=error-card", {
+                Session.setModal("error-card", {
                     message: "Неизвестная ошибка"
                 });
             }
@@ -93,21 +92,22 @@ export const LoginModalPage: FC<
             const response = await api.auth.byTempKey(qrInfo);
             Storage.setTokens(response);
             await Session.load();
-            replace("/");
+            Session.setView("/");
             setIsLoad(false);
+            Session.setModal(null);
         } catch (error) {
             if (error instanceof APIError) {
                 if (error.code === 4) {
-                    replace("/?modal=error-card", {
+                    Session.setModal("error-card",{
                         message: "Срок действия кода уже истёк",
                     });
                 } else {
-                    replace("/?modal=error-card", {
+                    Session.setModal("error-card",{
                         message: "Неизвестная ошибка"
                     });
                 }
             } else {
-                replace("/?modal=error-card", {
+                Session.setModal("error-card",{
                     message: "Неизвестная ошибка"
                 });
             }
@@ -116,7 +116,7 @@ export const LoginModalPage: FC<
 
     return (
         <ModalPage
-            nav={nav}
+            id={id}
             dynamicContentHeight
         >
             {isLoad ? (
@@ -180,7 +180,7 @@ export const LoginModalPage: FC<
                             const QRInfo = JSON.parse(result) as Record<string, unknown>;
 
                             if (!("userId" in QRInfo) || !("key" in QRInfo) || !("sign" in QRInfo)) {
-                                replace("/?modal=error-card", {
+                                Session.setModal("error-card",{
                                     message: "Неверный QR"
                                 });
                             } else {
@@ -207,3 +207,5 @@ export const LoginModalPage: FC<
         </ModalPage>
     );
 };
+
+export default observer(LoginModalPage);

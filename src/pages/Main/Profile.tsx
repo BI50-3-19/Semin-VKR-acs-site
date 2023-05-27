@@ -2,7 +2,7 @@ import api from "@/TS/api";
 import { IAccountGetStatsResponse } from "@/TS/api/sections/account";
 import { ISessionsGetActiveItemResponse } from "@/TS/api/sections/sessions";
 import { IUsersGetResponse } from "@/TS/api/types";
-import { push } from "@itznevikat/router";
+import Session from "@/TS/store/Session";
 import {
     Icon28KeyOutline, 
     Icon28CheckShieldDeviceOutline, 
@@ -70,7 +70,7 @@ const Profile = ({ user }: {user: IUsersGetResponse}) => {
                     Подтверждение входа
             </SimpleCell>
             <SimpleCell
-                onClick={() => push("?modal=sessions-list", {
+                onClick={() => Session.setModal("sessions-list", {
                     list: sessions
                 })}
                 indicator={sessions === null ? <Spinner size="small" /> : sessions.length} 

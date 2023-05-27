@@ -64,6 +64,10 @@ class Session {
     public snackbar: JSX.Element | null = null;
     public popout: JSX.Element | null = null;
 
+    public activeModal: string | null = null;
+    public activeView = "/";
+    public activePanel = "/";
+
     public user: IUsersGetResponse | null = null;
 
     public securitySession: SecuritySession | null = null;
@@ -95,6 +99,22 @@ class Session {
         this.popout = popout;
     }
 
+    public setModal(modal: string | null, payload?: unknown): void {
+        if (modal !== null && payload) {
+            this.cache.set(`modal-${modal}`, payload);
+        }
+        this.activeModal = modal;
+    }
+
+    public setView(view: string | null) {
+        this.activeView = view || "/";
+        this.setPanel(null);
+    }
+
+    public setPanel(panel: string | null) {
+        this.activePanel = panel || "/";
+    }
+
     public setSecuritySession(session: SecuritySession | null) {
         this.securitySession = session;
     }
@@ -117,6 +137,7 @@ class Session {
 
     public reset() {
         this.user = null;
+        this.setView("/");
     }
 }
 

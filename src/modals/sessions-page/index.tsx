@@ -1,5 +1,5 @@
 import {
-    FC, useEffect, useState 
+    FC, useEffect, useMemo, useState 
 } from "react";
 import {
     CellButton,
@@ -14,13 +14,14 @@ import {
     Spinner
 } from "@vkontakte/vkui";
 import api from "@/TS/api";
-import { useMeta } from "@itznevikat/router";
 import { ISessionsGetActiveItemResponse } from "@/TS/api/sections/sessions";
 import moment from "moment";
 import {
     Icon24DoorArrowLeftOutline,
     Icon28DoorArrowLeftOutline
 } from "@vkontakte/icons";
+import Session from "@/TS/store/Session";
+import { observer } from "mobx-react";
 
 const SessionCell = ({ session, onChangeList }: {session: ISessionsGetActiveItemResponse; onChangeList: () => void;}) => {
     return (
@@ -44,12 +45,12 @@ const SessionCell = ({ session, onChangeList }: {session: ISessionsGetActiveItem
     );
 };
 
-export const SessionsPage: FC<
+const SessionsPage: FC<
     NavIdProps & { dynamicContentHeight: boolean }
-> = ({ nav }) => {
-    const { list } = useMeta<{
+> = ({ id }) => {
+    const { list } = useMemo<{
         list?: ISessionsGetActiveItemResponse[];
-    }>();
+    }>(() => Session.cache.get("modal-sessions-list"), []);
 
     const [sessions, setSessions] = useState<ISessionsGetActiveItemResponse[] | null>(list || null);
 
@@ -59,7 +60,7 @@ export const SessionsPage: FC<
 
     return (
         <ModalPage
-            nav={nav}
+            id={id}
             dynamicContentHeight
         >
             <ModalPageHeader>Управление сессиями</ModalPageHeader>
@@ -95,3 +96,5 @@ export const SessionsPage: FC<
         </ModalPage>
     );
 };
+
+export default observer(SessionsPage);

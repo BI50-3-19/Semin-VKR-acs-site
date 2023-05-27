@@ -1,5 +1,4 @@
 import Session from "@/TS/store/Session";
-import { push } from "@itznevikat/router";
 import { Icon56Users3Outline } from "@vkontakte/icons";
 
 import {
@@ -20,10 +19,10 @@ import HeaderLeftButtons from "@/components/adaptivity/header-buttons";
 
 import { AccountNotCreated } from "@/popouts";
 
-const MainPage: FC<NavIdProps> = ({ nav }) => {
+const MainPage: FC<NavIdProps> = ({ id }) => {
     if (Session.user === null) {
         return (
-            <Panel nav={nav}>
+            <Panel id={id}>
                 <PanelHeader separator={false} before={<HeaderLeftButtons />}>REA ACS</PanelHeader>
                 <Group>
                     <Placeholder
@@ -35,7 +34,7 @@ const MainPage: FC<NavIdProps> = ({ nav }) => {
                                 <Button 
                                     size="l" 
                                     stretched
-                                    onClick={() => push("?modal=login-page")}
+                                    onClick={() => Session.setModal("login-page")}
                                 >Войти в аккаунт</Button>
                                 <Button 
                                     size="l" 
@@ -47,7 +46,7 @@ const MainPage: FC<NavIdProps> = ({ nav }) => {
                             </ButtonGroup>
                         }
                     >
-                    Для продолжения работы необходимо авторизоваться
+                        Для продолжения работы необходимо авторизоваться
                     </Placeholder>
                 </Group>
             </Panel>
@@ -55,7 +54,7 @@ const MainPage: FC<NavIdProps> = ({ nav }) => {
     }
 
     return (
-        <Panel nav={nav}>
+        <Panel id={id}>
             <PanelHeader separator={false} before={<HeaderLeftButtons />}>REA ACS</PanelHeader>
             <Profile user={Session.user}/>
             <QRCode />

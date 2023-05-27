@@ -11,7 +11,6 @@ import APIAccount from "./sections/account";
 import Storage from "../store/Storage";
 import Session from "../store/Session";
 
-import { replace } from "@itznevikat/router";
 import APIAreas from "./sections/areas";
 
 
@@ -64,7 +63,6 @@ class API {
             if (response.data.error.code === 4) {
                 Storage.reset();
                 Session.reset();
-                replace("/");
             }
 
             if (response.data.error.code === 30 && Storage.hasAuthInfo()) {

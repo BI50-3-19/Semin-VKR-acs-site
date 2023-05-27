@@ -1,24 +1,22 @@
 import { FC } from "react";
-import { push, useDeserialized } from "@itznevikat/router";
 import { Tabbar, TabbarItem } from "@vkontakte/vkui";
 
 import { TAdaptivityButton } from "./layout";
+import Session from "@/TS/store/Session";
 
 type TAdaptivityTabbarProps = {
     buttons: TAdaptivityButton[];
 };
 
 export const AdaptivityTabbar: FC<TAdaptivityTabbarProps> = ({ buttons }) => {
-    const { view } = useDeserialized();
-
     return (
         <Tabbar>
             {buttons.map(({ story, icon, text }: TAdaptivityButton) => (
                 <TabbarItem
                     key={story}
-                    selected={story === view}
+                    selected={story === Session.activeView}
                     text={text}
-                    onClick={() => view !== story && push(story)}
+                    onClick={() => Session.activeView !== story && Session.setView(story)}
                 >
                     {icon}
                 </TabbarItem>

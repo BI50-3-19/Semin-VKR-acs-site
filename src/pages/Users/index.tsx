@@ -8,7 +8,7 @@ import {
 import User from "./User";
 import api from "@/TS/api";
 
-const UsersPage: FC<NavIdProps> = ({ nav }) => {
+const UsersPage: FC<NavIdProps> = ({ id }) => {
     const [users, setUsers] = useState<IUsersGetResponse[]>([]);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ const UsersPage: FC<NavIdProps> = ({ nav }) => {
     }, []);
 
     return (
-        <Panel nav={nav}>
+        <Panel id={id}>
             <PanelHeader>Users</PanelHeader>
             <Group>
                 {users.map((user) => <User user={user}/>)}

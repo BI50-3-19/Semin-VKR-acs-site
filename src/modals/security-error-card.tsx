@@ -1,20 +1,21 @@
-import { replace, useMeta } from "@itznevikat/router";
+import Session from "@/TS/store/Session";
 import {
     Button, ButtonGroup, ModalCard, NavIdProps 
 } from "@vkontakte/vkui";
-import { FC } from "react";
+import { observer } from "mobx-react";
+import { FC, useMemo } from "react";
 
 interface IErrorCardMeta {
     message: string;
     description: string;
 }
 
-export const SecurityErrorCard: FC<NavIdProps> = ({ nav }) => {
-    const { message, description } = useMeta<IErrorCardMeta>();
+const SecurityErrorCard: FC<NavIdProps> = ({ id }) => {
+    const { message, description } = useMemo<IErrorCardMeta>(() => Session.cache.get("security-error-card"), []);
 
     return (
         <ModalCard
-            nav={nav}
+            id={id}
             header={message}
             subheader={description}
             actions={
@@ -23,7 +24,7 @@ export const SecurityErrorCard: FC<NavIdProps> = ({ nav }) => {
                         stretched
                         size="m"
                         mode="primary"
-                        onClick={() => replace("/security")}
+                        onClick={() => Session.setModal(null)}
                     >
                         Назад
                     </Button>
@@ -32,3 +33,5 @@ export const SecurityErrorCard: FC<NavIdProps> = ({ nav }) => {
         />
     );
 };
+
+export default observer(SecurityErrorCard);

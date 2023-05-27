@@ -1,42 +1,31 @@
-import { replace, useMeta } from "@itznevikat/router";
+import Session from "@/TS/store/Session";
 import {
     Button, ButtonGroup, ModalCard, NavIdProps 
 } from "@vkontakte/vkui";
-import { FC } from "react";
+import { observer } from "mobx-react";
+import { FC, useMemo } from "react";
 
-interface IErrorCardMeta {
-    message?: string;
-    prevPath?: string;
-}
-
-export const ErrorCard: FC<NavIdProps> = ({ nav }) => {
-    const { message, prevPath } = useMeta<IErrorCardMeta>();
+const ErrorCard: FC<NavIdProps> = ({ id }) => {
+    const { message } = useMemo<{ message?: string }>(() => Session.cache.get("modal-error-card"), []);
 
     return (
         <ModalCard
-            nav={nav}
+            id={id}
             header="Ошибка"
             subheader={message || "Неизвестная ошибка"}
             actions={
                 <ButtonGroup gap="m" mode="horizontal" stretched>
-                    {prevPath !== undefined && (
-                        <Button
-                            size="m"
-                            mode="primary"
-                            onClick={() => replace(prevPath)}
-                        >
-                            Назад
-                        </Button>
-                    )}
                     <Button
                         size="m"
                         mode="primary"
-                        onClick={() => replace("/")}
+                        onClick={() => Session.setModal(null)}
                     >
-                        На главную
+                        Назад
                     </Button>
                 </ButtonGroup>
             }
         />
     );
 };
+
+export default observer(ErrorCard);

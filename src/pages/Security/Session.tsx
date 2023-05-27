@@ -18,7 +18,6 @@ import {
     Icon28ArrowRightOutline, Icon28ArrowLeftOutline, Icon28DeleteOutline, Icon28QrCodeOutline 
 } from "@vkontakte/icons";
 import QRReader from "@/components/QRReader";
-import { push } from "@itznevikat/router";
 import useForceUpdate from "@/hooks/useForceUpdate";
 import api from "@/TS/api";
 import SecurityUserInfo from "./User";
@@ -107,19 +106,19 @@ const SecuritySessionPage: FC<{ session: SecuritySession }> = ({ session }) => {
                                 } else {
                                     switch (status.reason) {
                                         case "EXPIRED":
-                                            push("?modal=security-error-card", {
+                                            Session.setModal("security-error-card", {
                                                 message: "Неверный код",
                                                 description: "Срок действия кода истёк"
                                             });
                                             break;
                                         case "INVALID_SIGN":
-                                            push("?modal=security-error-card", {
+                                            Session.setModal("security-error-card", {
                                                 message: "Неверная подпись",
                                                 description: "Вероятно код подделан"
                                             });
                                             break;
                                         case "INVALID_USER_ID":
-                                            push("?modal=security-error-card", {
+                                            Session.setModal("security-error-card", {
                                                 message: "Неверный ID пользователя",
                                                 description: "Вероятно код подделан"
                                             });
@@ -128,7 +127,7 @@ const SecuritySessionPage: FC<{ session: SecuritySession }> = ({ session }) => {
                                 }
                             }
                         } catch (error) {
-                            push("?modal=security-error-card", {
+                            Session.setModal("security-error-card", {
                                 message: "Неверный QR",
                                 description: "QR не принадлежит системе"
                             });

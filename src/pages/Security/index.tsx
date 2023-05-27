@@ -10,9 +10,9 @@ import CreateSecuritySession from "./CreateSession";
 import { observer } from "mobx-react";
 import SecuritySessionPage from "./Session";
 
-const SecurityPage: FC<NavIdProps> = ({ nav }) => {
+const SecurityPage: FC<NavIdProps> = ({ id }) => {
     return (
-        <Panel nav={nav}>
+        <Panel id={id}>
             <PanelHeader separator={false}>Охрана</PanelHeader>
             {Session.securitySession === null && <CreateSecuritySession />}
             {Session.securitySession !== null && <SecuritySessionPage session={Session.securitySession}/>}
