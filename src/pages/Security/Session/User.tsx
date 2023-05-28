@@ -40,6 +40,8 @@ const SecurityUserInfo = ({ session, userId, back, direction, directionSubtitle,
     prevArea: IAreasGetListItemResponse | null;
 }) => {
     const [user, setUser] = useState<IUsersGetResponse | null>(null);
+    const [avatar, setAvatar] = useState<string>();
+
     const [access, setAccess] = useState<ISecurityCheckAccessToAreaResponse | null>(null);
 
     const [isForceAction, setIsForceAction] = useState<boolean>(false);
@@ -53,6 +55,16 @@ const SecurityUserInfo = ({ session, userId, back, direction, directionSubtitle,
             userId
         }).then(setUser);
     }, []);
+
+    useEffect(() => {
+        if (!user || user.hasAvatar === false) {
+            return;
+        }
+
+        void api.users.getAvatar({
+            userId: user.id
+        }).then(setAvatar);
+    }, [user]);
 
     useEffect(() => {
         setAccess(null);
@@ -169,7 +181,7 @@ const SecurityUserInfo = ({ session, userId, back, direction, directionSubtitle,
                     textAlign: "center"
                 }}
             >
-                <Avatar size={72} initials={`${user.surname[0]}${user.name[0]}`} src="" />
+                <Avatar size={72} initials={`${user.surname[0]}${user.name[0]}`} src={avatar} />
                 <Title
                     style={{
                         marginBottom: 8, marginTop: 20, fontSize: 24 
