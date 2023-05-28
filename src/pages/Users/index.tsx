@@ -19,7 +19,7 @@ const UsersPage: FC<NavIdProps> = ({ id }) => {
 
     return (
         <Panel id={id}>
-            <PanelHeader>Users</PanelHeader>
+            <PanelHeader>Пользователи</PanelHeader>
             <Group>
                 {users.map((user) => <User user={user}/>)}
             </Group>

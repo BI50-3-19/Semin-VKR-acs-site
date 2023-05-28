@@ -3,11 +3,11 @@ import { IAreasGetListItemResponse } from "@/TS/api/sections/areas";
 import { ISecurityCheckAccessToAreaResponse } from "@/TS/api/sections/security";
 import { IUsersGetResponse } from "@/TS/api/types";
 import Session, { SecuritySession } from "@/TS/store/Session";
+import UserProfile from "@/components/UserProfile";
 import utils from "@rus-anonym/web-utils";
 import { Icon28ArrowLeftOutline, Icon28ArrowRightOutline } from "@vkontakte/icons";
 import {
     Alert,
-    Avatar,
     Button,
     ButtonGroup,
     CellButton,
@@ -24,8 +24,7 @@ import {
     SimpleCell,
     Spacing,
     Spinner,
-    Textarea,
-    Title
+    Textarea
 } from "@vkontakte/vkui";
 import { useEffect, useState } from "react";
 
@@ -172,27 +171,7 @@ const SecurityUserInfo = ({ session, userId, back, direction, directionSubtitle,
 
     return (
         <Group>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "center"
-                }}
-            >
-                <Avatar size={72} initials={`${user.surname[0]}${user.name[0]}`} src={avatar} />
-                <Title
-                    style={{
-                        marginBottom: 8, marginTop: 20, fontSize: 24 
-                    }}
-                    level="3"
-                    weight="2"
-                >
-                    {user.surname} {user.name} {user.patronymic}
-                </Title>
-                {user.role}
-            </div>
+            <UserProfile user={user} />
             {access.isAllow === false && (
                 <FormStatus header="У пользователя нет доступа к зоне" mode="error" />
             )}

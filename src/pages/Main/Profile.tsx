@@ -3,18 +3,17 @@ import { IAccountGetStatsResponse } from "@/TS/api/sections/account";
 import { ISessionsGetActiveItemResponse } from "@/TS/api/sections/sessions";
 import { IUsersGetResponse } from "@/TS/api/types";
 import Session from "@/TS/store/Session";
+import UserProfile from "@/components/UserProfile";
 import {
     Icon28CheckShieldDeviceOutline,
     Icon28DevicesOutline,
     Icon28KeyOutline
 } from "@vkontakte/icons";
 import {
-    Avatar,
     Group,
     SimpleCell,
     Spacing,
-    Spinner,
-    Title
+    Spinner
 } from "@vkontakte/vkui";
 import moment from "moment";
 import {
@@ -33,27 +32,7 @@ const Profile = ({ user }: {user: IUsersGetResponse}) => {
 
     return  (
         <Group>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "center"
-                }}
-            >
-                <Avatar size={96} initials={`${user.surname[0]}${user.name[0]}`} src={Session.cache.get(`user-${user.id}-avatar`)} />
-                <Title
-                    style={{
-                        marginBottom: 8, marginTop: 20, fontSize: 24 
-                    }}
-                    level="3"
-                    weight="2"
-                >
-                    {user.surname} {user.name} {user.patronymic}
-                </Title>
-                {user.role}
-            </div>
+            <UserProfile user={user} />
             <Spacing />
             {/* <Spinner size="small" style={{ margin: '20px 0' }} /> */}
             <SimpleCell 

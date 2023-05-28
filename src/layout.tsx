@@ -12,7 +12,8 @@ import {
     ErrorModalCard,
     LoginModalPage,
     SecurityErrorModalCard,
-    SessionsModalPage
+    SessionsModalPage,
+    UserModalPage
 } from "./modals";
 import Session from "./TS/store/Session";
 
@@ -65,6 +66,7 @@ const Layout: FC = () => {
                 <ModalRoot activeModal={Session.activeModal} onClose={() => Session.setModal(null)}>
                     <LoginModalPage id="login-page" dynamicContentHeight />
                     <SessionsModalPage id="sessions-list" dynamicContentHeight />
+                    <UserModalPage id="user-page" dynamicContentHeight />
                     <ErrorModalCard id="error-card" />
                     <SecurityErrorModalCard id="security-error-card" />
                 </ModalRoot>

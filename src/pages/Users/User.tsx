@@ -1,5 +1,6 @@
 import api from "@/TS/api";
 import { IUsersGetResponse } from "@/TS/api/types";
+import session from "@/TS/store/Session";
 import { Avatar, RichCell } from "@vkontakte/vkui";
 import { useEffect, useState } from "react";
 
@@ -20,7 +21,11 @@ const User = ({ user }: {user: IUsersGetResponse}) => {
         <RichCell
             before={<Avatar size={48} initials={`${user.surname[0]}${user.name[0]}`} src={avatar} />}
             caption={user.role}
-            disabled
+            onClick={() => {
+                session.setModal("user-page", {
+                    user
+                });
+            }}
         >
             {user.surname} {user.name} {user.patronymic}
         </RichCell>
