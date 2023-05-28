@@ -171,6 +171,12 @@ class Session {
 
     public async load(): Promise<void> {
         this.user = await api.users.get();
+
+        if (this.user.hasAvatar) {
+            this.cache.set(`user-${this.user.id}-avatar`, await api.users.getAvatar());
+        } else {
+            this.cache.delete(`user-${this.user.id}-avatar`);
+        }
     }
 
     public reset() {

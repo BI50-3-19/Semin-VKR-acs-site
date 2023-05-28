@@ -25,15 +25,6 @@ import {
 const Profile = ({ user }: {user: IUsersGetResponse}) => {
     const [sessions, setSessions] = useState<ISessionsGetActiveItemResponse[] | null>(null);
     const [stats, setStats] = useState<IAccountGetStatsResponse | null>(null);
-    const [avatar, setAvatar] = useState<string>();
-
-    useEffect(() => {
-        if (user.hasAvatar === false) {
-            return;
-        }
-
-        void api.users.getAvatar().then(setAvatar);
-    }, [user]);
 
     useEffect(() => {
         void api.sessions.getActive().then(setSessions);
@@ -51,7 +42,7 @@ const Profile = ({ user }: {user: IUsersGetResponse}) => {
                     textAlign: "center"
                 }}
             >
-                <Avatar size={96} initials={`${user.surname[0]}${user.name[0]}`} src={avatar !== undefined ? avatar : undefined} />
+                <Avatar size={96} initials={`${user.surname[0]}${user.name[0]}`} src={Session.cache.get(`user-${user.id}-avatar`)} />
                 <Title
                     style={{
                         marginBottom: 8, marginTop: 20, fontSize: 24 
