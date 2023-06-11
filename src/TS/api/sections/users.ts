@@ -34,6 +34,12 @@ class APIUsers extends APISection {
 
         return URL.createObjectURL(response.data);
     }
+
+    public async delete(params?: {
+        userId: number
+    }): Promise<true> {
+        return this._call("users.delete", params);
+    }
 }
 
 export type { IUsersGetResponse };

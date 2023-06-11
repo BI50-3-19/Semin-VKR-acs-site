@@ -22,6 +22,7 @@ const UserProfile = ({ user }: { user: IUsersGetResponse; }) => {
             userId: user.id
         }).then(setAvatar);
     }, [user]);
+
     return (
         <div
             style={{
