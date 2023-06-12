@@ -50,7 +50,7 @@ const SessionsPage: FC<
 > = ({ id }) => {
     const { list } = useMemo<{
         list?: ISessionsGetActiveItemResponse[];
-    }>(() => Session.cache.get("modal-sessions-list"), []);
+    }>(() => Session.cache.get("modal-sessions-list"), [Session.cache.trigger]);
 
     const [sessions, setSessions] = useState<ISessionsGetActiveItemResponse[] | null>(list || null);
 

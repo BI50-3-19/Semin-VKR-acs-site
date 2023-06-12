@@ -12,6 +12,7 @@ import Session from "../store/Session";
 import Storage from "../store/Storage";
 
 import APIAreas from "./sections/areas";
+import APIDevices from "./sections/devices";
 
 
 interface IAPIParams {
@@ -28,6 +29,7 @@ class API {
     public readonly security: APISecurity;
     public readonly account: APIAccount;
     public readonly areas: APIAreas;
+    public readonly devices: APIDevices;
 
     constructor(options?: IAPIParams) {
         this._apiUrl = options?.apiUrl || "https://acs.rus-anonym-team.ru";
@@ -45,6 +47,7 @@ class API {
         this.security = new APISecurity(this);
         this.account = new APIAccount(this);
         this.areas = new APIAreas(this);
+        this.devices = new APIDevices(this);
     }
 
     public async call<Res = unknown>(

@@ -27,7 +27,7 @@ const UserModalPage: FC<
 > = ({ id }) => {
     const { user: oldUser } = useMemo<{
         user: IUsersGetResponse;
-    }>(() => Session.cache.get("modal-user-page"), []);
+    }>(() => Session.cache.get("modal-user-page"), [Session.cache.trigger]);
 
     const [user, setUser] = useState<IUsersGetResponse>(oldUser);
     const [isLoad, setIsLoad] = useState(false);

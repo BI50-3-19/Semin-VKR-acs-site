@@ -10,6 +10,9 @@ class Cache {
     private readonly _values: Record<string, unknown> = {
     };
 
+    public readonly trigger: object = {
+    };
+
     constructor() {
         makeAutoObservable(this, undefined, {
             deep: true
@@ -18,6 +21,8 @@ class Cache {
 
     public set(id: string, value: unknown) {
         this._values[id] = value;
+        (this as {trigger: object})["trigger"] = {
+        };
     }
 
     public delete(id: string) {

@@ -11,7 +11,7 @@ interface IErrorCardMeta {
 }
 
 const SecurityErrorCard: FC<NavIdProps> = ({ id }) => {
-    const { message, description } = useMemo<IErrorCardMeta>(() => Session.cache.get("modal-security-error-card"), []);
+    const { message, description } = useMemo<IErrorCardMeta>(() => Session.cache.get("modal-security-error-card"), [Session.cache.trigger]);
 
     return (
         <ModalCard
